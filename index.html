@@ -7,8 +7,6 @@
 
 <link rel="icon" type="image/png" href="./descarga.png">
 
-<script src="https://alcdn.msauth.net/browser/2.38.3/js/msal-browser.min.js"></script>
-
 <style>
 
 * {
@@ -28,9 +26,9 @@ body {
 .login-card {
     width: 90%;
     max-width: 650px;
-    background: rgba(255,255,255,0.96);
+    background: rgba(255,255,255,0.97);
     border-radius: 28px;
-    padding: 60px 60px;
+    padding: 60px;
     text-align: center;
     box-shadow: 0 25px 70px rgba(0,0,0,0.15);
 }
@@ -43,14 +41,14 @@ body {
 }
 
 h1 {
-    margin: 0 0 18px;
+    margin: 0 0 15px;
     font-size: 38px;
     font-weight: 700;
     color: #111;
 }
 
 .subtitle {
-    margin: 0 0 45px;
+    margin: 0 0 40px;
     font-size: 20px;
     color: #777;
 }
@@ -65,7 +63,7 @@ h1 {
     font-size: 18px;
     font-weight: 600;
     cursor: pointer;
-    transition: 0.2s;
+    transition: all 0.2s ease;
 }
 
 .microsoft-button:hover {
@@ -76,6 +74,7 @@ h1 {
 .microsoft-button:disabled {
     opacity: 0.6;
     cursor: wait;
+    transform: none;
 }
 
 .ms-logo {
@@ -106,29 +105,40 @@ h1 {
 #mensaje {
     display: none;
     margin-top: 25px;
-    padding: 16px;
+    padding: 15px;
     border-radius: 10px;
-    font-size: 15px;
+    font-size: 14px;
     line-height: 1.5;
 }
 
 .error {
+    display: block !important;
     background: #fdecec;
     color: #b00020;
 }
 
 .info {
+    display: block !important;
     background: #eeeeee;
     color: #555;
+}
+
+.success {
+    display: block !important;
+    background: #eaf7ed;
+    color: #187333;
 }
 
 .footer {
     margin-top: 30px;
     font-size: 12px;
-    color: #aaa;
+    color: #999;
 }
 
 </style>
+
+<script src="./msal-browser.min.js"></script>
+
 </head>
 
 <body>
@@ -173,11 +183,26 @@ h1 {
 
 <script>
 
-const CLIENT_ID = "PON_AQUI_TU_CLIENT_ID";
+const CLIENT_ID = "TU_CLIENT_ID";
 
-const TENANT_ID = "PON_AQUI_TU_TENANT_ID";
+const TENANT_ID = "TU_TENANT_ID";
 
-const LOGIN_URL = "https://TU_SERVIDOR/login";
+const REDIRECT_URI =
+    window.location.origin +
+    window.location.pathname.replace(
+        /index\.html$/,
+        ""
+    ) +
+    "redirect.html";
+
+
+const PORTAL_URL =
+    window.location.origin +
+    window.location.pathname.replace(
+        /index\.html$/,
+        ""
+    ) +
+    "portal.html";
 
 
 const msalConfig = {
@@ -191,6 +216,9 @@ const msalConfig = {
             TENANT_ID,
 
         redirectUri:
+            REDIRECT_URI,
+
+        postLogoutRedirectUri:
             window.location.origin +
             window.location.pathname
 
@@ -208,7 +236,9 @@ const msalConfig = {
 
 
 const msalInstance =
-    new msal.PublicClientApplication(msalConfig);
+    new msal.PublicClientApplication(
+        msalConfig
+    );
 
 
 const loginRequest = {
@@ -222,112 +252,335 @@ const loginRequest = {
 };
 
 
-function mensaje(texto, tipo) {
+function mostrarMensaje(
+    texto,
+    tipo
+) {
 
     const elemento =
-        document.getElementById("mensaje");
+        document.getElementById(
+            "mensaje"
+        );
 
     elemento.innerText = texto;
 
     elemento.className = tipo;
 
-    elemento.style.display = "block";
+}
+
+
+function ocultarMensaje() {
+
+    const elemento =
+        document.getElementById(
+            "mensaje"
+        );
+
+    elemento.className = "";
+
+    elemento.style.display = "none";
 
 }
 
 
-async function iniciarSesion() {
+function bloquearBoton() {
 
     const boton =
-        document.getElementById("loginButton");
+        document.getElementById(
+            "loginButton"
+        );
 
     boton.disabled = true;
 
     boton.innerText =
         "Conectando con Microsoft...";
 
-    document.getElementById(
-        "mensaje"
-    ).style.display = "none";
+}
+
+
+function desbloquearBoton() {
+
+    const boton =
+        document.getElementById(
+            "loginButton"
+        );
+
+    boton.disabled = false;
+
+    boton.innerHTML = `
+
+        <span class="ms-logo">
+
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+
+        </span>
+
+        Iniciar sesión con Microsoft
+
+    `;
+
+}
+
+
+async function iniciarSesion() {
+
+    ocultarMensaje();
+
+    bloquearBoton();
+
+    try {
+
+        await msalInstance.loginRedirect(
+            loginRequest
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Error Microsoft:",
+            error
+        );
+
+        desbloquearBoton();
+
+        mostrarMensaje(
+            obtenerMensajeError(error),
+            "error"
+        );
+
+    }
+
+}
+
+
+function obtenerMensajeError(error) {
+
+    if (!error) {
+
+        return "No fue posible iniciar sesión con Microsoft.";
+
+    }
+
+    if (
+        error.errorCode ===
+        "user_cancelled"
+    ) {
+
+        return "El inicio de sesión fue cancelado.";
+
+    }
+
+    if (
+        error.errorCode ===
+        "interaction_in_progress"
+    ) {
+
+        return "Ya existe un inicio de sesión en proceso.";
+
+    }
+
+    if (
+        error.errorCode ===
+        "redirect_uri_mismatch"
+    ) {
+
+        return "La dirección de redirección no coincide con la registrada en Microsoft Entra.";
+
+    }
+
+    return (
+        "No fue posible completar la autenticación con Microsoft. " +
+        (
+            error.errorMessage ||
+            error.message ||
+            ""
+        )
+    );
+
+}
+
+
+async function procesarRespuestaMicrosoft() {
 
     try {
 
         const respuesta =
-            await msalInstance.loginPopup(
-                loginRequest
-            );
-
-        if (!respuesta || !respuesta.account) {
-
-            throw new Error(
-                "Microsoft no devolvió una cuenta."
-            );
-
-        }
+            await msalInstance.handleRedirectPromise();
 
 
-        const cuenta =
-            respuesta.account;
+        if (
+            !respuesta ||
+            !respuesta.account
+        ) {
 
-
-        const correo = (
-
-            cuenta.username ||
-
-            cuenta.idTokenClaims?.preferred_username ||
-
-            cuenta.idTokenClaims?.email ||
-
-            ""
-
-        ).trim().toLowerCase();
-
-
-        console.log(
-            "Usuario autenticado:",
-            correo
-        );
-
-
-        if (!correo) {
-
-            throw new Error(
-                "No se pudo obtener el correo de Microsoft."
-            );
-
-        }
-
-
-        if (!correo.endsWith("@integraretail.pe")) {
-
-            try {
-
-                await msalInstance.logoutPopup({
-                    account: cuenta
-                });
-
-            } catch (e) {
-
-                console.log(e);
-
-            }
-
-
-            boton.disabled = false;
-
-            boton.innerText =
-                "Iniciar sesión con Microsoft";
-
-
-            mensaje(
-                "Acceso denegado. Debes utilizar una cuenta corporativa @integraretail.pe.",
-                "error"
-            );
+            verificarSesion();
 
             return;
 
         }
 
+
+        await validarCuenta(
+            respuesta.account
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Error procesando autenticación:",
+            error
+        );
+
+        desbloquearBoton();
+
+        mostrarMensaje(
+            obtenerMensajeError(error),
+            "error"
+        );
+
+    }
+
+}
+
+
+async function validarCuenta(
+    cuenta
+) {
+
+    const correo = (
+
+        cuenta.username ||
+
+        cuenta.idTokenClaims?.preferred_username ||
+
+        cuenta.idTokenClaims?.email ||
+
+        ""
+
+    ).trim().toLowerCase();
+
+
+    if (!correo) {
+
+        desbloquearBoton();
+
+        mostrarMensaje(
+            "Microsoft no devolvió un correo electrónico válido.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    console.log(
+        "Usuario autenticado:",
+        correo
+    );
+
+
+    if (
+        !correo.endsWith(
+            "@integraretail.pe"
+        )
+    ) {
+
+        desbloquearBoton();
+
+        mostrarMensaje(
+            "Acceso denegado. Debes utilizar una cuenta corporativa @integraretail.pe.",
+            "error"
+        );
+
+        setTimeout(
+            cerrarSesion,
+            2500
+        );
+
+        return;
+
+    }
+
+
+    sessionStorage.setItem(
+        "usuarioMicrosoft",
+        JSON.stringify({
+
+            nombre:
+                cuenta.name || "",
+
+            correo:
+                correo,
+
+            homeAccountId:
+                cuenta.homeAccountId
+
+        })
+    );
+
+
+    mostrarMensaje(
+        "Autenticación correcta. Ingresando...",
+        "success"
+    );
+
+
+    setTimeout(
+        function() {
+
+            window.location.href =
+                PORTAL_URL;
+
+        },
+        700
+    );
+
+}
+
+
+function verificarSesion() {
+
+    const cuentas =
+        msalInstance.getAllAccounts();
+
+
+    if (
+        !cuentas ||
+        cuentas.length === 0
+    ) {
+
+        return;
+
+    }
+
+
+    const cuenta =
+        cuentas[0];
+
+
+    const correo = (
+
+        cuenta.username ||
+
+        cuenta.idTokenClaims?.preferred_username ||
+
+        cuenta.idTokenClaims?.email ||
+
+        ""
+
+    ).trim().toLowerCase();
+
+
+    if (
+        correo.endsWith(
+            "@integraretail.pe"
+        )
+    ) {
 
         sessionStorage.setItem(
             "usuarioMicrosoft",
@@ -346,66 +599,37 @@ async function iniciarSesion() {
         );
 
 
-        mensaje(
-            "Autenticación correcta. Redirigiendo...",
-            "info"
-        );
-
-
-        setTimeout(function() {
-
-            window.location.href =
-                LOGIN_URL +
-                "?usuario=" +
-                encodeURIComponent(correo);
-
-        }, 800);
-
-
-    } catch (error) {
-
-        console.error(
-            "ERROR MICROSOFT:",
-            error
-        );
-
-
-        boton.disabled = false;
-
-        boton.innerText =
-            "Iniciar sesión con Microsoft";
-
-
-        let texto =
-            "No fue posible completar la autenticación con Microsoft.";
-
-
-        if (error.errorCode) {
-
-            texto +=
-                " Código: " +
-                error.errorCode;
-
-        }
-
-
-        if (error.errorMessage) {
-
-            texto +=
-                " " +
-                error.errorMessage;
-
-        }
-
-
-        mensaje(
-            texto,
-            "error"
-        );
+        window.location.href =
+            PORTAL_URL;
 
     }
 
 }
+
+
+async function cerrarSesion() {
+
+    try {
+
+        sessionStorage.removeItem(
+            "usuarioMicrosoft"
+        );
+
+        await msalInstance.logoutRedirect();
+
+    } catch (error) {
+
+        console.error(error);
+
+    }
+
+}
+
+
+window.addEventListener(
+    "load",
+    procesarRespuestaMicrosoft
+);
 
 </script>
 
