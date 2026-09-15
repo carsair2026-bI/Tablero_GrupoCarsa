@@ -1,156 +1,240 @@
-```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acceso - Grupo Integra</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tablero Reportes Grupo Carsa</title>
 
-    <link rel="icon" href="./icono.png">
+<link rel="icon" type="image/png" href="./descarga.png">
 
-    <script src="https://alcdn.msauth.net/browser/2.38.3/js/msal-browser.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+<script src="https://alcdn.msauth.net/browser/2.38.3/js/msal-browser.min.js"></script>
 
-        body {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: Arial, Helvetica, sans-serif;
-            background: linear-gradient(135deg, #f4f4f4, #e9e9e9);
-        }
+<style>
 
-        .login-container {
-            width: 100%;
-            max-width: 430px;
-            padding: 25px;
-        }
+body {
+    background: linear-gradient(135deg, #f5f7fa, #e4e8f0);
+    font-family: 'Segoe UI', sans-serif;
+    min-height: 100vh;
+}
 
-        .login-card {
-            background: white;
-            border-radius: 18px;
-            padding: 45px 40px;
-            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.12);
-            text-align: center;
-        }
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+}
 
-        .logo {
-            width: 170px;
-            max-width: 80%;
-            margin-bottom: 25px;
-        }
+.card-btn {
+    position: relative;
+    padding: 25px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.3);
+    text-align: center;
+    text-decoration: none;
+    color: #000;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    animation: fadeInUp 0.6s ease;
+    border-left: 6px solid #E51C22;
+    cursor: pointer;
+}
 
-        h1 {
-            font-size: 25px;
-            color: #333;
-            margin-bottom: 10px;
-        }
+.card-btn i {
+    font-size: 40px;
+    margin-bottom: 10px;
+    display: block;
+    color: #000;
+}
 
-        .subtitle {
-            color: #777;
-            font-size: 14px;
-            margin-bottom: 30px;
-            line-height: 1.5;
-        }
+.card-btn:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+    background: #E51C22;
+    color: #fff;
+}
 
-        .microsoft-button {
-            width: 100%;
-            border: none;
-            border-radius: 8px;
-            padding: 14px 18px;
-            background: #2f2f2f;
-            color: white;
-            font-size: 15px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-        }
+.card-btn:hover i {
+    color: #fff;
+}
 
-        .microsoft-button:hover {
-            background: #1f1f1f;
-        }
+.card-btn:active {
+    transform: scale(0.97);
+}
 
-        .microsoft-logo {
-            width: 20px;
-            height: 20px;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            grid-template-rows: 1fr 1fr;
-            gap: 2px;
-        }
+.card-btn::before {
+    content: "";
+    position: absolute;
+    width: 120%;
+    height: 120%;
+    background: linear-gradient(
+        120deg,
+        transparent,
+        rgba(255,255,255,0.6),
+        transparent
+    );
+    top: -100%;
+    left: -100%;
+    transition: 0.5s;
+}
 
-        .microsoft-logo span:nth-child(1) {
-            background: #f25022;
-        }
+.card-btn:hover::before {
+    top: 100%;
+    left: 100%;
+}
 
-        .microsoft-logo span:nth-child(2) {
-            background: #7fba00;
-        }
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
 
-        .microsoft-logo span:nth-child(3) {
-            background: #00a4ef;
-        }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 
-        .microsoft-logo span:nth-child(4) {
-            background: #ffb900;
-        }
+.card {
+    border-radius: 20px;
+    overflow: hidden;
+}
 
-        .message {
-            display: none;
-            margin-top: 20px;
-            padding: 12px;
-            border-radius: 7px;
-            font-size: 13px;
-            line-height: 1.4;
-        }
+iframe {
+    border-radius: 0 0 20px 20px;
+}
 
-        .error {
-            background: #fdecec;
-            color: #b00020;
-        }
+#loginScreen {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
-        .loading {
-            background: #f2f2f2;
-            color: #555;
-        }
+.login-card {
+    width: 100%;
+    max-width: 430px;
+    background: rgba(255,255,255,0.95);
+    border-radius: 22px;
+    padding: 40px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.18);
+    text-align: center;
+}
 
-        .footer {
-            margin-top: 25px;
-            font-size: 11px;
-            color: #999;
-        }
-    </style>
+.login-logo {
+    max-width: 190px;
+    max-height: 80px;
+    margin-bottom: 25px;
+}
+
+.login-card h2 {
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.login-card p {
+    color: #777;
+    margin-bottom: 30px;
+}
+
+.microsoft-btn {
+    width: 100%;
+    border: none;
+    border-radius: 8px;
+    padding: 14px;
+    background: #2f2f2f;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.microsoft-btn:hover {
+    background: #1f1f1f;
+}
+
+.microsoft-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.ms-logo {
+    display: inline-grid;
+    grid-template-columns: 9px 9px;
+    grid-template-rows: 9px 9px;
+    gap: 2px;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+.ms-logo span:nth-child(1) {
+    background: #f25022;
+}
+
+.ms-logo span:nth-child(2) {
+    background: #7fba00;
+}
+
+.ms-logo span:nth-child(3) {
+    background: #00a4ef;
+}
+
+.ms-logo span:nth-child(4) {
+    background: #ffb900;
+}
+
+#mensaje {
+    display: none;
+    margin-top: 20px;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 13px;
+}
+
+.error {
+    background: #fdecec;
+    color: #b00020;
+}
+
+.info {
+    background: #eeeeee;
+    color: #555;
+}
+
+#dashboard {
+    display: none;
+}
+
+</style>
 </head>
 
 <body>
 
-<div class="login-container">
+<div id="loginScreen">
+
     <div class="login-card">
 
-        <img src="./logo.png" class="logo" alt="Grupo Integra">
+        <img
+            src="./carsa.png"
+            class="login-logo"
+            alt="Grupo Carsa">
 
-        <h1>Acceso al sistema</h1>
+        <h2>Tablero Reportes</h2>
 
-        <p class="subtitle">
-            Inicia sesión con tu cuenta corporativa de Microsoft.
+        <p>
+            Ingresa con tu cuenta corporativa de Microsoft
         </p>
 
         <button
             id="loginButton"
-            class="microsoft-button"
-            onclick="loginMicrosoft()">
+            class="microsoft-btn"
+            onclick="iniciarSesion()">
 
-            <span class="microsoft-logo">
+            <span class="ms-logo">
                 <span></span>
                 <span></span>
                 <span></span>
@@ -158,218 +242,473 @@
             </span>
 
             Iniciar sesión con Microsoft
+
         </button>
 
-        <div id="message" class="message"></div>
-
-        <div class="footer">
-            Acceso exclusivo para usuarios de Integra Retail
-        </div>
+        <div id="mensaje"></div>
 
     </div>
+
 </div>
+
+
+<div id="dashboard">
+
+<div class="container mt-5">
+
+<nav
+    class="navbar px-4 py-2 mb-4"
+    style="background-color:#E51C22;border-radius:15px;">
+
+    <div class="d-flex align-items-center gap-3">
+
+        <img
+            src="./carsa.png"
+            alt="Logo Grupo Carsa"
+            style="max-height:50px;">
+
+        <span
+            class="text-white fw-bold fs-4">
+            Tablero Reportes Grupo Carsa
+        </span>
+
+    </div>
+
+    <span
+        id="usuario"
+        class="text-white">
+    </span>
+
+</nav>
+
+
+<div class="dashboard-grid mb-4">
+
+    <div
+        class="card-btn"
+        onclick="irModulo('ventas')">
+
+        <i class="bi bi-bar-chart-line"></i>
+
+        <h5>Ventas</h5>
+
+        <p>Indicadores comerciales</p>
+
+    </div>
+
+
+    <div
+        class="card-btn"
+        onclick="irModulo('inventario')">
+
+        <i class="bi bi-box-seam"></i>
+
+        <h5>Inventario</h5>
+
+        <p>Stock y almacenes</p>
+
+    </div>
+
+
+    <div
+        class="card-btn"
+        onclick="irModulo('logistica')">
+
+        <i class="bi bi-truck"></i>
+
+        <h5>Logística</h5>
+
+        <p>Distribución</p>
+
+    </div>
+
+
+    <div
+        class="card-btn"
+        onclick="irModulo('finanzas')">
+
+        <i class="bi bi-cash-stack"></i>
+
+        <h5>Finanzas</h5>
+
+        <p>Ingresos y egresos</p>
+
+    </div>
+
+
+    <div
+        class="card-btn"
+        onclick="irModulo('rrhh')">
+
+        <i class="bi bi-people"></i>
+
+        <h5>RRHH</h5>
+
+        <p>Gestión humana</p>
+
+    </div>
+
+
+    <div
+        class="card-btn"
+        onclick="irModulo('ejecutivo')">
+
+        <i class="bi bi-graph-up-arrow"></i>
+
+        <h5>KPI</h5>
+
+        <p>Indicadores clave</p>
+
+    </div>
+
+</div>
+
+
+<div class="d-flex justify-content-end mt-4">
+
+    <button
+        onclick="cerrarSesion()"
+        class="btn btn-danger btn-lg">
+
+        🚪 Cerrar sesión
+
+    </button>
+
+</div>
+
+</div>
+
+</div>
+
 
 <script>
 
 const msalConfig = {
+
     auth: {
+
         clientId: "TU_CLIENT_ID",
-        authority: "https://login.microsoftonline.com/TU_TENANT_ID",
-        redirectUri: window.location.origin + "/"
+
+        authority:
+            "https://login.microsoftonline.com/TU_TENANT_ID",
+
+        redirectUri:
+            window.location.origin +
+            window.location.pathname
+
     },
 
     cache: {
+
         cacheLocation: "sessionStorage",
+
         storeAuthStateInCookie: false
+
     }
+
 };
 
-const msalInstance = new msal.PublicClientApplication(msalConfig);
+
+const msalInstance =
+    new msal.PublicClientApplication(msalConfig);
+
 
 const loginRequest = {
+
     scopes: [
         "openid",
         "profile",
         "email"
     ]
+
 };
+
 
 function mostrarMensaje(texto, tipo) {
 
-    const message = document.getElementById("message");
+    const mensaje =
+        document.getElementById("mensaje");
 
-    message.innerText = texto;
-    message.className = "message " + tipo;
-    message.style.display = "block";
+    mensaje.innerText = texto;
+
+    mensaje.className = tipo;
+
+    mensaje.style.display = "block";
+
 }
+
 
 function ocultarMensaje() {
 
-    const message = document.getElementById("message");
+    const mensaje =
+        document.getElementById("mensaje");
 
-    message.style.display = "none";
+    mensaje.style.display = "none";
+
 }
 
-function bloquearBoton() {
 
-    const button = document.getElementById("loginButton");
+async function iniciarSesion() {
 
-    button.disabled = true;
-    button.style.opacity = "0.6";
-    button.innerText = "Validando acceso...";
-}
-
-function habilitarBoton() {
-
-    const button = document.getElementById("loginButton");
-
-    button.disabled = false;
-    button.style.opacity = "1";
-    button.innerText = "Iniciar sesión con Microsoft";
-}
-
-async function loginMicrosoft() {
+    const boton =
+        document.getElementById("loginButton");
 
     ocultarMensaje();
-    bloquearBoton();
+
+    boton.disabled = true;
+
+    boton.innerText =
+        "Validando acceso...";
 
     try {
 
-        const response = await msalInstance.loginPopup(loginRequest);
+        const respuesta =
+            await msalInstance.loginPopup(
+                loginRequest
+            );
 
-        await validarUsuario(response);
+        const cuenta =
+            respuesta.account;
+
+        if (!cuenta) {
+
+            throw new Error(
+                "No se encontró la cuenta."
+            );
+
+        }
+
+        const correo = (
+
+            cuenta.username ||
+
+            cuenta.idTokenClaims?.preferred_username ||
+
+            cuenta.idTokenClaims?.email ||
+
+            ""
+
+        ).trim().toLowerCase();
+
+
+        if (!correo) {
+
+            throw new Error(
+                "Microsoft no devolvió el correo."
+            );
+
+        }
+
+
+        if (!correo.endsWith("@integraretail.pe")) {
+
+            await msalInstance.logoutPopup({
+                account: cuenta
+            });
+
+            boton.disabled = false;
+
+            boton.innerText =
+                "Iniciar sesión con Microsoft";
+
+            mostrarMensaje(
+                "Acceso denegado. Debes utilizar una cuenta @integraretail.pe.",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        sessionStorage.setItem(
+            "usuarioMicrosoft",
+            JSON.stringify({
+
+                nombre:
+                    cuenta.name || "",
+
+                correo:
+                    correo,
+
+                homeAccountId:
+                    cuenta.homeAccountId
+
+            })
+        );
+
+
+        mostrarMensaje(
+            "Autenticación correcta. Ingresando...",
+            "info"
+        );
+
+
+        setTimeout(() => {
+
+            mostrarDashboard(
+                cuenta.name,
+                correo
+            );
+
+        }, 500);
+
 
     } catch (error) {
 
         console.error(error);
 
-        habilitarBoton();
+        boton.disabled = false;
+
+        boton.innerText =
+            "Iniciar sesión con Microsoft";
 
         mostrarMensaje(
             "No fue posible completar la autenticación con Microsoft.",
             "error"
         );
+
     }
+
 }
 
-async function validarUsuario(response) {
 
-    if (!response || !response.account) {
+function mostrarDashboard(nombre, correo) {
 
-        habilitarBoton();
+    document.getElementById(
+        "loginScreen"
+    ).style.display = "none";
 
-        mostrarMensaje(
-            "No se pudo obtener la cuenta de Microsoft.",
-            "error"
-        );
 
-        return;
-    }
+    document.getElementById(
+        "dashboard"
+    ).style.display = "block";
 
-    const account = response.account;
 
-    const correo = (
-        account.username ||
-        account.idTokenClaims?.preferred_username ||
-        account.idTokenClaims?.email ||
-        ""
-    ).trim().toLowerCase();
+    document.getElementById(
+        "usuario"
+    ).innerText =
+        "👋 Bienvenido, " +
+        (nombre || correo);
 
-    if (!correo) {
-
-        habilitarBoton();
-
-        mostrarMensaje(
-            "Microsoft no devolvió un correo electrónico válido.",
-            "error"
-        );
-
-        return;
-    }
-
-    if (!correo.endsWith("@integraretail.pe")) {
-
-        await msalInstance.logoutPopup({
-            account: account
-        });
-
-        habilitarBoton();
-
-        mostrarMensaje(
-            "Acceso denegado. Debes utilizar una cuenta corporativa @integraretail.pe.",
-            "error"
-        );
-
-        return;
-    }
-
-    mostrarMensaje(
-        "Autenticación correcta. Redirigiendo...",
-        "loading"
-    );
-
-    sessionStorage.setItem(
-        "usuarioMicrosoft",
-        JSON.stringify({
-            nombre: account.name || "",
-            correo: correo,
-            homeAccountId: account.homeAccountId
-        })
-    );
-
-    setTimeout(function() {
-
-        window.location.href = "./login";
-
-    }, 500);
 }
 
-async function comprobarSesion() {
+
+function irModulo(modulo) {
+
+    const rutas = {
+
+        ventas:
+            "./ventas/",
+
+        inventario:
+            "./inventario/",
+
+        logistica:
+            "./logistica/",
+
+        finanzas:
+            "./finanzas/",
+
+        rrhh:
+            "./rrhh/",
+
+        ejecutivo:
+            "./ejecutivo/"
+
+    };
+
+
+    if (rutas[modulo]) {
+
+        window.location.href =
+            rutas[modulo];
+
+    }
+
+}
+
+
+async function cerrarSesion() {
+
+    sessionStorage.removeItem(
+        "usuarioMicrosoft"
+    );
 
     try {
 
-        const accounts = msalInstance.getAllAccounts();
+        await msalInstance.logoutPopup();
 
-        if (accounts.length > 0) {
+    } catch (error) {
 
-            const account = accounts[0];
+        console.error(error);
 
-            const correo = (
-                account.username ||
-                account.idTokenClaims?.preferred_username ||
-                account.idTokenClaims?.email ||
-                ""
-            ).trim().toLowerCase();
+    }
 
-            if (correo.endsWith("@integraretail.pe")) {
+    location.reload();
 
-                sessionStorage.setItem(
-                    "usuarioMicrosoft",
-                    JSON.stringify({
-                        nombre: account.name || "",
-                        correo: correo,
-                        homeAccountId: account.homeAccountId
-                    })
-                );
+}
 
-                window.location.href = "./login";
-            }
+
+async function verificarSesion() {
+
+    try {
+
+        const cuentas =
+            msalInstance.getAllAccounts();
+
+
+        if (cuentas.length === 0) {
+
+            return;
+
+        }
+
+
+        const cuenta =
+            cuentas[0];
+
+
+        const correo = (
+
+            cuenta.username ||
+
+            cuenta.idTokenClaims?.preferred_username ||
+
+            cuenta.idTokenClaims?.email ||
+
+            ""
+
+        ).trim().toLowerCase();
+
+
+        if (
+            correo &&
+            correo.endsWith("@integraretail.pe")
+        ) {
+
+            mostrarDashboard(
+                cuenta.name,
+                correo
+            );
+
         }
 
     } catch (error) {
 
         console.error(error);
+
     }
+
 }
 
-window.addEventListener("load", function() {
 
-    comprobarSesion();
-
-});
+window.addEventListener(
+    "load",
+    verificarSesion
+);
 
 </script>
 
 </body>
 </html>
-```
