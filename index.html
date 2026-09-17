@@ -183,16 +183,23 @@ h1 {
 
 <script>
 
-const CLIENT_ID = "2894ba73-12dc-4327-8fb5-9a1a5b2b133e";
+const CLIENT_ID =
+"2894ba73-12dc-4327-8fb5-9a1a5b2b133e";
+
+const REDIRECT_URI =
+"https://carsair2026-bi.github.io/Tablero_GrupoCarsa/redirect.html";
+
+const PORTAL_URL =
+"https://carsair2026-bi.github.io/Tablero_GrupoCarsa/";
 
 const msalConfig = {
     auth: {
         clientId: CLIENT_ID,
-        authority: "https://login.microsoftonline.com/organizations",
+        authority:
+            "https://login.microsoftonline.com/organizations",
         redirectUri: REDIRECT_URI,
         postLogoutRedirectUri:
-            window.location.origin +
-            window.location.pathname
+            "https://carsair2026-bi.github.io/Tablero_GrupoCarsa/"
     },
     cache: {
         cacheLocation: "sessionStorage",
