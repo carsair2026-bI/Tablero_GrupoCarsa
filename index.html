@@ -3,141 +3,97 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Acceso - Grupo Carsa</title>
 
-<link rel="icon" type="image/png" href="./icono.png">
+<link relng
 
 <style>
 
-* {
-    box-sizing: border-box;
+*{
+    box-sizing:border-box;
 }
 
-body {
-    margin: 0;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: "Segoe UI", Arial, sans-serif;
-    background: linear-gradient(135deg, #f5f7fa, #e4e8f0);
+body{
+    margin:0;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-family:"Segoe UI", Arial, sans-serif;
+    background:linear-gradient(135deg,#f5f7fa,#e4e8f0);
 }
 
-.login-card {
-    width: 90%;
-    max-width: 650px;
-    background: rgba(255,255,255,0.97);
-    border-radius: 28px;
-    padding: 60px;
-    text-align: center;
-    box-shadow: 0 25px 70px rgba(0,0,0,0.15);
+.login-card{
+    width:90%;
+    max-width:650px;
+    background:#fff;
+    border-radius:28px;
+    padding:60px;
+    text-align:center;
+    box-shadow:0 25px 70px rgba(0,0,0,.15);
 }
 
-.logo {
-    width: 420px;
-    max-height: 200px;
-    object-fit: contain;
-    margin-bottom: 35px;
+.logo{
+    width:420px;
+    max-width:100%;
+    margin-bottom:30px;
 }
 
-h1 {
-    margin: 0 0 15px;
-    font-size: 38px;
-    font-weight: 700;
-    color: #111;
+h1{
+    margin:0 0 15px 0;
+    color:#111;
 }
 
-.subtitle {
-    margin: 0 0 40px;
-    font-size: 20px;
-    color: #777;
+.subtitle{
+    color:#666;
+    margin-bottom:35px;
 }
 
-.microsoft-button {
-    width: 100%;
-    min-height: 68px;
-    border: 0;
-    border-radius: 10px;
-    background: #2f2f2f;
-    color: white;
-    font-size: 18px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
+.microsoft-button{
+    width:100%;
+    min-height:68px;
+    border:none;
+    border-radius:10px;
+    background:#2f2f2f;
+    color:#fff;
+    cursor:pointer;
+    font-size:18px;
+    font-weight:600;
 }
 
-.microsoft-button:hover {
-    background: #1f1f1f;
-    transform: translateY(-2px);
+.microsoft-button:hover{
+    background:#1f1f1f;
 }
 
-.microsoft-button:disabled {
-    opacity: 0.6;
-    cursor: wait;
-    transform: none;
+#mensaje{
+    margin-top:20px;
+    display:none;
+    padding:15px;
+    border-radius:10px;
 }
 
-.ms-logo {
-    display: inline-grid;
-    grid-template-columns: 10px 10px;
-    grid-template-rows: 10px 10px;
-    gap: 2px;
-    margin-right: 12px;
-    vertical-align: middle;
+.error{
+    display:block !important;
+    background:#fdecec;
+    color:#b00020;
 }
 
-.ms-logo span:nth-child(1) {
-    background: #f25022;
+.success{
+    display:block !important;
+    background:#eaf7ed;
+    color:#187333;
 }
 
-.ms-logo span:nth-child(2) {
-    background: #7fba00;
-}
-
-.ms-logo span:nth-child(3) {
-    background: #00a4ef;
-}
-
-.ms-logo span:nth-child(4) {
-    background: #ffb900;
-}
-
-#mensaje {
-    display: none;
-    margin-top: 25px;
-    padding: 15px;
-    border-radius: 10px;
-    font-size: 14px;
-    line-height: 1.5;
-}
-
-.error {
-    display: block !important;
-    background: #fdecec;
-    color: #b00020;
-}
-
-.info {
-    display: block !important;
-    background: #eeeeee;
-    color: #555;
-}
-
-.success {
-    display: block !important;
-    background: #eaf7ed;
-    color: #187333;
-}
-
-.footer {
-    margin-top: 30px;
-    font-size: 12px;
-    color: #999;
+.footer{
+    margin-top:25px;
+    font-size:12px;
+    color:#999;
 }
 
 </style>
 
-<script src="./msal-browser.min.js"></script>
+<script src="https://alcdn.msauth.net/browser/2.39.0/js.min.jsscript>
 
 </head>
 
@@ -154,23 +110,9 @@ h1 {
     <h1>Tablero Reportes</h1>
 
     <p class="subtitle">
-        Ingresa con tu cuenta corporativa de Microsoft
-    </p>
-
-    <button
-        id="loginButton"
-        class="microsoft-button"
+       soft-button"
         onclick="iniciarSesion()">
-
-        <span class="ms-logo">
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-        </span>
-
         Iniciar sesión con Microsoft
-
     </button>
 
     <div id="mensaje"></div>
@@ -183,8 +125,7 @@ h1 {
 
 <script>
 
-const CLIENT_ID =
-"2894ba73-12dc-4327-8fb5-9a1a5b2b133e";
+const CLIENT_ID = "2894ba73-12dc-4327-8fb5-9a1a5b2b133e";
 
 const REDIRECT_URI =
 "https://carsair2026-bi.github.io/Tablero_GrupoCarsa/redirect.html";
@@ -195,11 +136,9 @@ const PORTAL_URL =
 const msalConfig = {
     auth: {
         clientId: CLIENT_ID,
-        authority:
-            "https://login.microsoftonline.com/organizations",
+        authority: "https://login.microsoftonline.com/organizations",
         redirectUri: REDIRECT_URI,
-        postLogoutRedirectUri:
-            "https://carsair2026-bi.github.io/Tablero_GrupoCarsa/"
+        postLogoutRedirectUri: PORTAL_URL
     },
     cache: {
         cacheLocation: "sessionStorage",
@@ -208,400 +147,94 @@ const msalConfig = {
 };
 
 const msalInstance =
-    new msal.PublicClientApplication(
-        msalConfig
-    );
-
+    new msal.PublicClientApplication(msalConfig);
 
 const loginRequest = {
-
     scopes: [
         "openid",
         "profile",
         "email"
     ]
-
 };
 
+function mostrarMensaje(texto,tipo){
 
-function mostrarMensaje(
-    texto,
-    tipo
-) {
+    const m=document.getElementById("mensaje");
 
-    const elemento =
-        document.getElementById(
-            "mensaje"
-        );
-
-    elemento.innerText = texto;
-
-    elemento.className = tipo;
-
+    m.innerText=texto;
+    m.className=tipo;
 }
 
+function iniciarSesion(){
 
-function ocultarMensaje() {
-
-    const elemento =
-        document.getElementById(
-            "mensaje"
-        );
-
-    elemento.className = "";
-
-    elemento.style.display = "none";
-
+    msalInstance.loginRedirect(loginRequest);
 }
 
+async function procesarRespuestaMicrosoft(){
 
-function bloquearBoton() {
+    try{
 
-    const boton =
-        document.getElementById(
-            "loginButton"
-        );
-
-    boton.disabled = true;
-
-    boton.innerText =
-        "Conectando con Microsoft...";
-
-}
-
-
-function desbloquearBoton() {
-
-    const boton =
-        document.getElementById(
-            "loginButton"
-        );
-
-    boton.disabled = false;
-
-    boton.innerHTML = `
-
-        <span class="ms-logo">
-
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-
-        </span>
-
-        Iniciar sesión con Microsoft
-
-    `;
-
-}
-
-
-async function iniciarSesion() {
-
-    ocultarMensaje();
-
-    bloquearBoton();
-
-    try {
-
-        await msalInstance.loginRedirect(
-            loginRequest
-        );
-
-    } catch (error) {
-
-        console.error(
-            "Error Microsoft:",
-            error
-        );
-
-        desbloquearBoton();
-
-        mostrarMensaje(
-            obtenerMensajeError(error),
-            "error"
-        );
-
-    }
-
-}
-
-
-function obtenerMensajeError(error) {
-
-    if (!error) {
-
-        return "No fue posible iniciar sesión con Microsoft.";
-
-    }
-
-    if (
-        error.errorCode ===
-        "user_cancelled"
-    ) {
-
-        return "El inicio de sesión fue cancelado.";
-
-    }
-
-    if (
-        error.errorCode ===
-        "interaction_in_progress"
-    ) {
-
-        return "Ya existe un inicio de sesión en proceso.";
-
-    }
-
-    if (
-        error.errorCode ===
-        "redirect_uri_mismatch"
-    ) {
-
-        return "La dirección de redirección no coincide con la registrada en Microsoft Entra.";
-
-    }
-
-    return (
-        "No fue posible completar la autenticación con Microsoft. " +
-        (
-            error.errorMessage ||
-            error.message ||
-            ""
-        )
-    );
-
-}
-
-
-async function procesarRespuestaMicrosoft() {
-
-    try {
-
-        const respuesta =
+        const response =
             await msalInstance.handleRedirectPromise();
 
-
-        if (
-            !respuesta ||
-            !respuesta.account
-        ) {
-
-            verificarSesion();
-
+        if(!response || !response.account){
             return;
-
         }
 
+        const correo =
+            (
+                response.account.username ||
+                response.account.idTokenClaims?.preferred_username ||
+                ""
+            )
+            .toLowerCase()
+            .trim();
 
-        await validarCuenta(
-            respuesta.account
-        );
+        if(!correo.endsWith("@integraretail.pe")){
 
+            mostrarMensaje(
+                "Acceso permitido solo para cuentas @integraretail.pe",
+                "error"
+            );
 
-    } catch (error) {
+            await msalInstance.logoutRedirect();
 
-        console.error(
-            "Error procesando autenticación:",
-            error
-        );
-
-        desbloquearBoton();
-
-        mostrarMensaje(
-            obtenerMensajeError(error),
-            "error"
-        );
-
-    }
-
-}
-
-
-async function validarCuenta(
-    cuenta
-) {
-
-    const correo = (
-
-        cuenta.username ||
-
-        cuenta.idTokenClaims?.preferred_username ||
-
-        cuenta.idTokenClaims?.email ||
-
-        ""
-
-    ).trim().toLowerCase();
-
-
-    if (!correo) {
-
-        desbloquearBoton();
-
-        mostrarMensaje(
-            "Microsoft no devolvió un correo electrónico válido.",
-            "error"
-        );
-
-        return;
-
-    }
-
-
-    console.log(
-        "Usuario autenticado:",
-        correo
-    );
-
-
-    if (
-        !correo.endsWith(
-            "@integraretail.pe"
-        )
-    ) {
-
-        desbloquearBoton();
-
-        mostrarMensaje(
-            "Acceso denegado. Debes utilizar una cuenta corporativa @integraretail.pe.",
-            "error"
-        );
-
-        setTimeout(
-            cerrarSesion,
-            2500
-        );
-
-        return;
-
-    }
-
-
-    sessionStorage.setItem(
-        "usuarioMicrosoft",
-        JSON.stringify({
-
-            nombre:
-                cuenta.name || "",
-
-            correo:
-                correo,
-
-            homeAccountId:
-                cuenta.homeAccountId
-
-        })
-    );
-
-
-    mostrarMensaje(
-        "Autenticación correcta. Ingresando...",
-        "success"
-    );
-
-
-    setTimeout(
-        function() {
-
-            window.location.href =
-                PORTAL_URL;
-
-        },
-        700
-    );
-
-}
-
-
-function verificarSesion() {
-
-    const cuentas =
-        msalInstance.getAllAccounts();
-
-
-    if (
-        !cuentas ||
-        cuentas.length === 0
-    ) {
-
-        return;
-
-    }
-
-
-    const cuenta =
-        cuentas[0];
-
-
-    const correo = (
-
-        cuenta.username ||
-
-        cuenta.idTokenClaims?.preferred_username ||
-
-        cuenta.idTokenClaims?.email ||
-
-        ""
-
-    ).trim().toLowerCase();
-
-
-    if (
-        correo.endsWith(
-            "@integraretail.pe"
-        )
-    ) {
+            return;
+        }
 
         sessionStorage.setItem(
             "usuarioMicrosoft",
             JSON.stringify({
-
+                correo: correo,
                 nombre:
-                    cuenta.name || "",
-
-                correo:
-                    correo,
-
-                homeAccountId:
-                    cuenta.homeAccountId
-
+                    response.account.name
             })
         );
 
-
-        window.location.href =
-            PORTAL_URL;
-
-    }
-
-}
-
-
-async function cerrarSesion() {
-
-    try {
-
-        sessionStorage.removeItem(
-            "usuarioMicrosoft"
+        mostrarMensaje(
+            "Ingreso correcto...",
+            "success"
         );
 
-        await msalInstance.logoutRedirect();
+        setTimeout(()=>{
+            window.location.href =
+                PORTAL_URL;
+        },1000);
 
-    } catch (error) {
+    }
+    catch(error){
 
         console.error(error);
 
+        mostrarMensaje(
+            error.message || "Error de autenticación",
+            "error"
+        );
     }
-
 }
 
-
-window.addEventListener(
-    "load",
-    procesarRespuestaMicrosoft
-);
+window.onload =
+    procesarRespuestaMicrosoft;
 
 </script>
 
