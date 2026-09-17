@@ -183,57 +183,22 @@ h1 {
 
 <script>
 
-const CLIENT_ID = "e8d6dd98-c651-4263-b137-014311fd17af";
-
-const TENANT_ID = ""https://login.microsoftonline.com/9b387d4f-26ad-4668-a334-8cd1584c609b";
-
-const REDIRECT_URI =
-    window.location.origin +
-    window.location.pathname.replace(
-        /index\.html$/,
-        ""
-    ) +
-    "redirect.html";
-
-
-const PORTAL_URL =
-    window.location.origin +
-    window.location.pathname.replace(
-        /index\.html$/,
-        ""
-    ) +
-    "portal.html";
-
+const CLIENT_ID = "2894ba73-12dc-4327-8fb5-9a1a5b2b133e";
 
 const msalConfig = {
-
     auth: {
-
         clientId: CLIENT_ID,
-
-        authority:
-            "https://login.microsoftonline.com/" +
-            TENANT_ID,
-
-        redirectUri:
-            REDIRECT_URI,
-
+        authority: "https://login.microsoftonline.com/organizations",
+        redirectUri: REDIRECT_URI,
         postLogoutRedirectUri:
             window.location.origin +
             window.location.pathname
-
     },
-
     cache: {
-
         cacheLocation: "sessionStorage",
-
         storeAuthStateInCookie: false
-
     }
-
 };
-
 
 const msalInstance =
     new msal.PublicClientApplication(
