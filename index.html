@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Acceso - Grupo Carsa</title>
 
-<link relng
+<link rel="icon" type="image/png" href="./icono.png">
+
+<script src="https://alcdn.msauth.net/browser/2.39.0/js/msal-browser.min.js"></script>
 
 <style>
 
@@ -20,14 +23,14 @@ body{
     display:flex;
     justify-content:center;
     align-items:center;
-    font-family:"Segoe UI", Arial, sans-serif;
+    font-family:"Segoe UI",Arial,sans-serif;
     background:linear-gradient(135deg,#f5f7fa,#e4e8f0);
 }
 
 .login-card{
     width:90%;
     max-width:650px;
-    background:#fff;
+    background:#ffffff;
     border-radius:28px;
     padding:60px;
     text-align:center;
@@ -41,7 +44,7 @@ body{
 }
 
 h1{
-    margin:0 0 15px 0;
+    margin:0 0 15px;
     color:#111;
 }
 
@@ -60,6 +63,7 @@ h1{
     cursor:pointer;
     font-size:18px;
     font-weight:600;
+    transition:.2s;
 }
 
 .microsoft-button:hover{
@@ -67,8 +71,8 @@ h1{
 }
 
 #mensaje{
-    margin-top:20px;
     display:none;
+    margin-top:20px;
     padding:15px;
     border-radius:10px;
 }
@@ -93,8 +97,6 @@ h1{
 
 </style>
 
-<script src="https://alcdn.msauth.net/browser/2.39.0/js.min.jsscript>
-
 </head>
 
 <body>
@@ -104,13 +106,14 @@ h1{
     <img
         src="./logo.png"
         class="logo"
-        alt="Grupo Carsa"
-        onerror="this.style.display='none';">
+        alt="Grupo Carsa">
 
     <h1>Tablero Reportes</h1>
 
     <p class="subtitle">
-       soft-button"
+   ton
+        id="loginButton"
+        class="microsoft-button"
         onclick="iniciarSesion()">
         Iniciar sesión con Microsoft
     </button>
@@ -125,7 +128,8 @@ h1{
 
 <script>
 
-const CLIENT_ID = "2894ba73-12dc-4327-8fb5-9a1a5b2b133e";
+const CLIENT_ID =
+"2894ba73-12dc-4327-8fb5-9a1a5b2b133e";
 
 const REDIRECT_URI =
 "https://carsair2026-bi.github.io/Tablero_GrupoCarsa/redirect.html";
@@ -159,36 +163,51 @@ const loginRequest = {
 
 function mostrarMensaje(texto,tipo){
 
-    const m=document.getElementById("mensaje");
+    const m =
+        document.getElementById("mensaje");
 
-    m.innerText=texto;
-    m.className=tipo;
+    m.innerText = texto;
+    m.className = tipo;
 }
 
-function iniciarSesion(){
+async function iniciarSesion(){
 
-    msalInstance.loginRedirect(loginRequest);
+    try{
+
+        await msalInstance.loginRedirect(
+            loginRequest
+        );
+
+    }catch(error){
+
+        console.error(error);
+
+        mostrarMensaje(
+            error.message,
+            "error"
+        );
+    }
 }
 
-async function procesarRespuestaMicrosoft(){
+async function procesarLogin(){
 
     try{
 
         const response =
             await msalInstance.handleRedirectPromise();
 
-        if(!response || !response.account){
+        if(!response){
             return;
         }
 
         const correo =
-            (
-                response.account.username ||
-                response.account.idTokenClaims?.preferred_username ||
-                ""
-            )
-            .toLowerCase()
-            .trim();
+        (
+            response.account.username ||
+            response.account.idTokenClaims?.preferred_username ||
+            ""
+        )
+        .toLowerCase()
+        .trim();
 
         if(!correo.endsWith("@integraretail.pe")){
 
@@ -206,13 +225,12 @@ async function procesarRespuestaMicrosoft(){
             "usuarioMicrosoft",
             JSON.stringify({
                 correo: correo,
-                nombre:
-                    response.account.name
+                nombre: response.account.name
             })
         );
 
         mostrarMensaje(
-            "Ingreso correcto...",
+            "Ingreso correcto",
             "success"
         );
 
@@ -221,20 +239,19 @@ async function procesarRespuestaMicrosoft(){
                 PORTAL_URL;
         },1000);
 
-    }
-    catch(error){
+    }catch(error){
 
         console.error(error);
 
         mostrarMensaje(
-            error.message || "Error de autenticación",
+            error.message,
             "error"
         );
     }
 }
 
 window.onload =
-    procesarRespuestaMicrosoft;
+    procesarLogin;
 
 </script>
 
