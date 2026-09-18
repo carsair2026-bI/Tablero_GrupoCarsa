@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acceso - Grupo Carsa</title>
+    <title>Procesando acceso - Grupo Carsa</title>
 
     <link rel="shortcut icon" href="./icono.png">
     <link rel="icon" type="image/png" href="./icono.png">
@@ -25,53 +25,51 @@
             background:linear-gradient(135deg,#f5f7fa,#e4e8f0);
         }
 
-        .login-card{
+        .card{
             width:90%;
-            max-width:650px;
+            max-width:500px;
             background:#fff;
             border-radius:28px;
-            padding:60px;
+            padding:50px;
             text-align:center;
             box-shadow:0 25px 70px rgba(0,0,0,.15);
         }
 
         .logo{
-            width:420px;
+            width:280px;
             max-width:100%;
-            margin-bottom:30px;
+            margin-bottom:20px;
         }
 
-        h1{
-            margin:0 0 15px;
+        h2{
+            margin:0 0 10px;
             color:#111;
         }
 
-        .subtitle{
+        p{
             color:#666;
-            margin-bottom:35px;
         }
 
-        .microsoft-button{
-            width:100%;
-            min-height:68px;
-            border:none;
-            border-radius:10px;
-            background:#2f2f2f;
-            color:#fff;
-            cursor:pointer;
-            font-size:18px;
-            font-weight:600;
+        .spinner{
+            margin:25px auto;
+            width:42px;
+            height:42px;
+            border:4px solid #e4e8f0;
+            border-top-color:#2f2f2f;
+            border-radius:50%;
+            animation:girar 0.9s linear infinite;
         }
 
-        .microsoft-button:hover{
-            background:#1f1f1f;
+        @keyframes girar{
+            to{ transform:rotate(360deg); }
         }
 
         #mensaje{
             display:none;
-            margin-top:20px;
+            margin-top:15px;
             padding:15px;
             border-radius:10px;
+            text-align:left;
         }
 
         .error{
@@ -86,49 +84,49 @@
             color:#187333;
         }
 
-        .footer{
-            margin-top:25px;
-            font-size:12px;
-            color:#999;
+        a.volver{
+            display:inline-block;
+            margin-top:15px;
+            color:#2f2f2f;
+            font-weight:600;
         }
     </style>
 </head>
 
 <body>
 
-<div class="login-card">
-
-    <img src="logo.png" class="logo">
-
-    <h1>Tablero Reportes</h1>
-
-    <p class="subtitle">
-        Ingrese con su cuenta corporativa Microsoft
-    </p>
-
-    <button
-        id="loginButton"
-        class="microsoft-button">
-        Iniciar sesión con Microsoft
-    </button>
-
+<div class="card">
+    <img src="logo.png" class="logo" alt="Grupo Carsa">
+    <h2>Validando tu acceso</h2>
+    <p>Por favor espera un momento...</p>
+    <div class="spinner" id="spinner"></div>
     <div id="mensaje"></div>
-
-    <div class="footer">
-        Acceso exclusivo para usuarios de Integra Retail
-    </div>
-
+    <a href="index.html" class="volver" id="volverLink" style="display:none;">Volver al inicio</a>
 </div>
 
 <script>
 
+const mensajeEl = document.getElementById("mensaje");
+const spinnerEl = document.getElementById("spinner");
+const volverLink = document.getElementById("volverLink");
+
+function mostrarMensaje(texto, tipo){
+    spinnerEl.style.display = "none";
+    mensajeEl.className = tipo; // "error" o "success"
+    mensajeEl.innerText = texto;
+}
+
+function mostrarVolver(){
+    volverLink.style.display = "inline-block";
+}
+
 if (typeof msal === "undefined") {
-    console.error("MSAL no cargó");
-    document.getElementById("mensaje").className = "error";
-    document.getElementById("mensaje").innerText =
-        "Error cargando librería Microsoft Authentication Library.";
+    mostrarMensaje("Error cargando librería Microsoft Authentication Library.", "error");
+    mostrarVolver();
+
 } else {
 
+    // Debe ser IDÉNTICA a la configuración de index.html
     const CLIENT_ID = "2894ba73-12dc-4327-8fb5-9a1a5b2b133e";
 
     const REDIRECT_URI =
@@ -141,32 +139,68 @@ if (typeof msal === "undefined") {
             redirectUri: REDIRECT_URI
         },
         cache: {
-            cacheLocation: "sessionStorage"
+            cacheLocation: "sessionStorage",
+            storeAuthStateInCookie: false
         }
     };
 
-    const msalInstance =
-        new msal.PublicClientApplication(msalConfig);
+    const msalInstance = new msal.PublicClientApplication(msalConfig);
 
-    document
-        .getElementById("loginButton")
-        .addEventListener("click", async () => {
+    (async () => {
+        try {
 
-            try {
+            await msalInstance.initialize();
 
-                await msalInstance.loginRedirect({
-                    scopes: [
-                        "openid",
-                        "profile",
-                        "email"
-                    ]
-                });
+            // Procesa la respuesta que Microsoft agrega en la URL
+            // tras el login (código/hash de autenticación)
+            const respuesta = await msalInstance.handleRedirectPromise();
 
-            } catch (error) {
+            let cuenta = null;
 
-                console.error(error);
+            if (respuesta && respuesta.account) {
+                cuenta = respuesta.account;
+            } else {
+                const cuentas = msalInstance.getAllAccounts();
+                if (cuentas.length > 0) {
+                    cuenta = cuentas[0];
+                }
+            }
 
-                const mensaje =
-                    document.getElementById("mensaje");
+            if (cuenta) {
 
-                mensaje
+                msalInstance.setActiveAccount(cuenta);
+
+                mostrarMensaje(
+                    "Bienvenido, " + (cuenta.name || cuenta.username) + ". Redirigiendo...",
+                    "success"
+                );
+
+                // Cambia "dashboard.html" por la página real
+                // a la que quieres enviar al usuario ya logueado
+                setTimeout(() => {
+                    window.location.href = "dashboard.html";
+                }, 1200);
+
+            } else {
+                mostrarMensaje(
+                    "No se encontró una sesión activa. Intenta iniciar sesión de nuevo.",
+                    "error"
+                );
+                mostrarVolver();
+            }
+
+        } catch (error) {
+            console.error("Error procesando redirect:", error);
+            mostrarMensaje(
+                "Ocurrió un error validando tu acceso: " + (error.errorMessage || error.message || "Error desconocido"),
+                "error"
+            );
+            mostrarVolver();
+        }
+    })();
+}
+
+</script>
+
+</body>
+</html>
