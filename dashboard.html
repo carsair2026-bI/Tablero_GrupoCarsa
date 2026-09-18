@@ -1,0 +1,341 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reportes Grupo Carsa</title>
+<link rel="shortcut icon" href="./icono.png">
+<link rel="icon" type="image/png" href="./icono.png">
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:linear-gradient(135deg,#f5f7fa,#e4e8f0);
+    font-family:'Segoe UI',sans-serif;
+    min-height:100vh;
+    padding:20px;
+}
+
+.navbar{
+    background:#E51C22;
+    border-radius:25px;
+    padding:12px 30px;
+    margin-bottom:25px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    box-shadow:0 10px 30px rgba(0,0,0,.15);
+}
+
+.navbar-left{
+    display:flex;
+    align-items:center;
+    gap:20px;
+}
+
+.logo{
+    height:80px;
+    width:auto;
+    object-fit:contain;
+}
+
+.navbar-title{
+    color:white;
+    font-size:42px;
+    font-weight:800;
+}
+
+.dashboard-grid{
+    display:grid;
+    grid-template-columns:repeat(4, minmax(200px, 280px));
+    gap:12px;
+    justify-content:center;
+    margin-bottom:15px;
+    max-width:1800px;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.card-btn{
+    display:flex; 
+    align-items:center;
+    gap:16px;
+    padding:20px;
+    border-radius:28px;
+    background:white;
+    border-left:8px solid #E51C22;
+    cursor:pointer;
+    transition:.35s;
+    box-shadow:0 5px 5px rgba(0,0,0,.06);
+}
+
+.card-btn:hover{
+    transform:translateY(-8px);
+    background:#E51C22;
+    color:white;
+    box-shadow:0 20px 40px rgba(229,28,34,.25);
+}
+
+.card-btn:hover p{
+    color:white;
+}
+
+.card-btn:hover i{
+    color:white;
+}
+
+.card-btn i{
+    font-size:42px;
+    min-width:40px;
+}
+
+.card-btn h3{
+    margin:0;
+    font-size:14px;
+    font-weight:700;
+}
+
+.card-btn p{
+    margin-top:5px;
+    color:#6b7280;
+    font-size:13px;
+}
+
+.report-card{
+    background:white;
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 10px 25px rgba(0,0,0,.12);
+}
+
+.report-header{
+    background:linear-gradient(135deg,#ff4d4d,#d90429);
+    color:white;
+    padding:14px;
+    text-align:center;
+    font-size:28px;
+    font-weight:700;
+}
+
+#placeholder{
+    height:850px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    background:linear-gradient(135deg,#f8fafc,#eef2f7);
+}
+
+.placeholder-title{
+    font-size:48px;
+    font-weight:800;
+    color:#dc3545;
+}
+
+.placeholder-text{
+    margin-top:15px;
+    color:#6b7280;
+    font-size:20px;
+}
+
+.arrow{
+    font-size:60px;
+    display:inline-block;
+    animation:bounce 1.2s infinite;
+}
+
+iframe{
+    width:100%;
+    height:900px;
+    border:none;
+    display:none;
+}
+
+@keyframes bounce{
+    0%,100%{
+        transform:translateY(0);
+    }
+    50%{
+        transform:translateY(-10px);
+    }
+}
+
+@media(max-width:1200px){
+
+    .dashboard-grid{
+        grid-template-columns:repeat(2, 1fr);
+    }
+
+    .navbar{
+        flex-direction:column;
+        justify-content:center;
+        gap:15px;
+    }
+
+    .navbar-left{
+        flex-direction:column;
+        text-align:center;
+    }
+
+    .navbar-title{
+        font-size:32px;
+    }
+
+    .logo{
+        height:70px;
+    }
+}
+
+@media(max-width:600px){
+    .dashboard-grid{
+        grid-template-columns:1fr;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="navbar">
+
+    <div class="navbar-left">
+
+        <img
+            src="logo.png"
+            class="logo"
+            alt="Logo Grupo Carsa">
+
+        <div class="navbar-title">
+            Reportes Grupo Carsa
+        </div>
+
+    </div>
+
+</div>
+
+<div class="dashboard-grid">
+
+    <div class="card-btn"
+         onclick="cargarReporte('Venta QT','https://app.powerbi.com/view?r=eyJrIjoiZDEwZWI3NjgtMTE0Mi00NmNmLWI3NTctMmUzY2Y0NzVmZTQ4IiwidCI6IjAyMDhhY2YzLTJiYjQtNGMzYi04MGQ5LTM2YTY4M2Y3OWZkNiJ9&pageName=2b13e294406015565300')">
+        <i class="bi bi-graph-up-arrow"></i>
+        <div>
+            <h3>Venta QT</h3>
+            <p>Indicadores comerciales</p>
+        </div>
+    </div>
+
+    <div class="card-btn"
+         onclick="cargarReporte('Venta CrediCash','https://app.powerbi.com/view?r=eyJrIjoiMjZkMmU3MjctZjk2My00ZGVlLWI1YzEtNjdmNjgwOGYzODc5IiwidCI6IjAyMDhhY2YzLTJiYjQtNGMzYi04MGQ5LTM2YTY4M2Y3OWZkNiJ9&pageName=2b13e294406015565300')">
+        <i class="bi bi-cash"></i>
+        <div>
+            <h3>Venta CrediCash</h3>
+            <p>Indicadores Desembolso Efectivo</p>
+        </div>
+    </div>
+    
+    <div class="card-btn"
+         onclick="cargarReporte('Alianzas y Aliados','https://app.powerbi.com/view?r=eyJrIjoiNDg4NWZiNzQtY2M1MC00ZjJhLTg5OWItYmNhNTgyMDY5YzBhIiwidCI6IjAyMDhhY2YzLTJiYjQtNGMzYi04MGQ5LTM2YTY4M2Y3OWZkNiJ9&pageName=5ef92a0a4e9e89bd680e')">
+        <i class="bi bi-people"></i>
+        <div>
+            <h3>Alianzas y Aliados</h3>
+            <p>Formas de Pago Aliados</p>
+        </div>
+    </div>
+    
+    <div class="card-btn"
+         onclick="cargarReporte('Productividad','https://app.powerbi.com/view?r=eyJrIjoiMTFkN2Q0NzQtNDQ0OS00MmRmLWI3N2YtYzYzZTA2NGQwOTdjIiwidCI6IjAyMDhhY2YzLTJiYjQtNGMzYi04MGQ5LTM2YTY4M2Y3OWZkNiJ9&pageName=75c69a2c852cdab9c419')">
+        <i class="bi bi-lightning-charge"></i>
+        <div>
+            <h3>Productividad</h3>
+            <p>Seguimiento de Productividad por vendedor</p>
+        </div>
+    </div>
+
+    <div class="card-btn"
+         onclick="cargarReporte('Liquidación Antigüedad','https://app.powerbi.com/view?r=eyJrIjoiZGU5NWZkMWItMzQyZC00MWYxLWI4MmEtY2VkODFkNTUxMzU1IiwidCI6IjAyMDhhY2YzLTJiYjQtNGMzYi04MGQ5LTM2YTY4M2Y3OWZkNiJ9&pageName=9d45593874a64936a66d')">
+        <i class="bi bi-calendar-check"></i>
+        <div>
+            <h3>Liquidación Antigüedad</h3>
+            <p>Seguimiento de antigüedad</p>
+        </div>
+    </div>
+
+    <div class="card-btn"
+         onclick="cargarReporte('Bolsa Tienda','https://app.powerbi.com/view?r=eyJrIjoiNWE0OWJhMWMtNTU5Ny00YmU5LWI2N2QtOGNjYzg2YjMwZDEzIiwidCI6IjAyMDhhY2YzLTJiYjQtNGMzYi04MGQ5LTM2YTY4M2Y3OWZkNiJ9&pageName=eccb299d317937f2f476')">
+        <i class="bi bi-bar-chart-fill"></i>
+        <div>
+            <h3>Bolsa Tienda</h3>
+            <p>Indicadores estratégicos</p>
+        </div>
+    </div>
+<!--
+    <div class="card-btn"
+         onclick="cargarReporte('OIC','https://app.powerbi.com/view?r=eyJrIjoiZTZiNjBkNGYtMTBmOS00YWU5LWEyMmEtMzI0MDIyZjdkMzhhIiwidCI6IjAyMDhhY2YzLTJiYjQtNGMzYi04MGQ5LTM2YTY4M2Y3OWZkNiJ9&pageName=2b13e294406015565300')">
+        <i class="bi bi-eye"></i>
+        <div>
+            <h3>OIC</h3>
+            <p>Indicadores OIC</p>
+        </div>
+    </div>
+
+  -->
+</div>
+
+<div class="report-card">
+
+    <div class="report-header" id="titulo">
+        Selecciona un reporte
+    </div>
+
+    <div id="placeholder">
+
+        <div class="placeholder-title">
+            <span class="arrow">⬆️</span>
+            Selecciona Tu Reporte
+        </div>
+
+        <div class="placeholder-text">
+            Selecciona uno de los reportes para visualizar la información
+        </div>
+
+    </div>
+
+    <iframe id="visor" allowfullscreen></iframe>
+
+</div>
+
+<script>
+
+function cargarReporte(nombre,url){
+
+    document.getElementById('titulo').innerText = nombre;
+
+    document.getElementById('placeholder').style.display = 'none';
+
+    const visor = document.getElementById('visor');
+
+    visor.style.display = 'block';
+
+    visor.src = url;
+
+    document.querySelector('.report-card').scrollIntoView({
+        behavior:'smooth',
+        block:'start'
+    });
+
+}
+
+</script>
+
+</body>
+</html>
