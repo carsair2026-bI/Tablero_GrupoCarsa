@@ -255,6 +255,7 @@ iframe{
     </button>
 
 </div>
+
 <div class="dashboard-grid">
 
     <div class="card-btn"
@@ -265,7 +266,6 @@ iframe{
             <p>Indicadores Financieros</p>
         </div>
     </div>
-<div class="dashboard-grid">
 
     <div class="card-btn"
          onclick="cargarReporte('Venta QT','https://app.powerbi.com/view?r=eyJrIjoiZDEwZWI3NjgtMTE0Mi00NmNmLWI3NTctMmUzY2Y0NzVmZTQ4IiwidCI6IjAyMDhhY2YzLTJiYjQtNGMzYi04MGQ5LTM2YTY4M2Y3OWZkNiJ9&pageName=2b13e294406015565300')">
@@ -377,7 +377,7 @@ function cargarReporte(nombre,url){
 
 }
 
-document.getElementById('btnCerrarSesion').addEventListener('click', () => {
+function cerrarSesion(){
 
     // Borra tanto la marca de acceso por usuario/contraseña como
     // cualquier sesión de MSAL guardada (su caché vive en sessionStorage).
@@ -385,7 +385,36 @@ document.getElementById('btnCerrarSesion').addEventListener('click', () => {
 
     window.location.href = 'index.html';
 
-});
+}
+
+document.getElementById('btnCerrarSesion').addEventListener('click', cerrarSesion);
+
+// ---- CIERRE AUTOMÁTICO POR INACTIVIDAD (30 minutos) ----
+const TIEMPO_INACTIVIDAD_MS = 30 * 60 * 1000; // 30 minutos
+
+let temporizadorInactividad = null;
+
+function reiniciarTemporizadorInactividad(){
+
+    if (temporizadorInactividad) {
+        clearTimeout(temporizadorInactividad);
+    }
+
+    temporizadorInactividad = setTimeout(() => {
+        alert('Tu sesión se cerró por inactividad.');
+        cerrarSesion();
+    }, TIEMPO_INACTIVIDAD_MS);
+
+}
+
+// Eventos que cuentan como "actividad" del usuario
+['mousemove', 'mousedown', 'keydown', 'scroll', 'touchstart', 'click']
+    .forEach((evento) => {
+        document.addEventListener(evento, reiniciarTemporizadorInactividad, { passive: true });
+    });
+
+// Inicia el temporizador al cargar la página
+reiniciarTemporizadorInactividad();
 
 </script>
 
