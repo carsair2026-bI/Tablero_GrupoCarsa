@@ -1,16 +1,15 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Acceso - Grupo Carsa</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso - Grupo Carsa</title>
 
-./icono.png
+    </icono.png
 
-<script src="https://alcdn.msauth.net/browser/2.39.0/js/msal-browser.min.js"></script>
+    <script src="https://alcdn.msauth.net/browser/2.39.0/js/msal-browser.min.js"></script>
 
     <style>
-
         *{
             box-sizing:border-box;
         }
@@ -67,12 +66,6 @@
             background:#1f1f1f;
         }
 
-        .footer{
-            margin-top:25px;
-            font-size:12px;
-            color:#999;
-        }
-
         #mensaje{
             display:none;
             margin-top:20px;
@@ -92,8 +85,12 @@
             color:#187333;
         }
 
+        .footer{
+            margin-top:25px;
+            font-size:12px;
+            color:#999;
+        }
     </style>
-
 </head>
 
 <body>
@@ -124,49 +121,51 @@
 
 <script>
 
-const CLIENT_ID = "2894ba73-12dc-4327-8fb5-9a1a5b2b133e";
+if (typeof msal === "undefined") {
+    console.error("MSAL no cargó");
+    document.getElementById("mensaje").className = "error";
+    document.getElementById("mensaje").innerText =
+        "Error cargando librería Microsoft Authentication Library.";
+} else {
 
-const REDIRECT_URI =
-"https://carsair2026-bi.github.io/Tablero_GrupoCarsa/redirect.html";
+    const CLIENT_ID = "2894ba73-12dc-4327-8fb5-9a1a5b2b133e";
 
-const msalConfig = {
-    auth: {
-        clientId: CLIENT_ID,
-        authority: "https://login.microsoftonline.com/organizations",
-        redirectUri: REDIRECT_URI
-    },
-    cache: {
-        cacheLocation: "sessionStorage"
-    }
-};
-console.log("MSAL =", window.msal);
-const msalInstance =
-    new msal.PublicClientApplication(msalConfig);
+    const REDIRECT_URI =
+        "https://carsair2026-bi.github.io/Tablero_GrupoCarsa/redirect.html";
 
-document
-.getElementById("loginButton")
-.addEventListener("click", async () => {
+    const msalConfig = {
+        auth: {
+            clientId: CLIENT_ID,
+            authority: "https://login.microsoftonline.com/organizations",
+            redirectUri: REDIRECT_URI
+        },
+        cache: {
+            cacheLocation: "sessionStorage"
+        }
+    };
 
-    try {
+    const msalInstance =
+        new msal.PublicClientApplication(msalConfig);
 
-        await msalInstance.loginRedirect({
-            scopes: ["openid","profile","email"]
-        });
+    document
+        .getElementById("loginButton")
+        .addEventListener("click", async () => {
 
-    } catch(error) {
+            try {
 
-        console.error(error);
+                await msalInstance.loginRedirect({
+                    scopes: [
+                        "openid",
+                        "profile",
+                        "email"
+                    ]
+                });
 
-        const mensaje =
-            document.getElementById("mensaje");
+            } catch (error) {
 
-        mensaje.className = "error";
-        mensaje.innerText = error.message;
-    }
+                console.error(error);
 
-});
+                const mensaje =
+                    document.getElementById("mensaje");
 
-</script>
-
-</body>
-</html>
+                mensaje
