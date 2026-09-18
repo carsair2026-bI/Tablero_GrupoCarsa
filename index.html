@@ -1,18 +1,16 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Acceso - Grupo Carsa</title>
 
-<link rel="icon" type="image/png" href="./icono.png">
+./icono.png
 
 <script src="https://alcdn.msauth.net/browser/2.39.0/js/msal-browser.min.js"></script>
 
 <style>
-
 *{
     box-sizing:border-box;
 }
@@ -70,6 +68,11 @@ h1{
     background:#1f1f1f;
 }
 
+.microsoft-button:disabled{
+    opacity:.7;
+    cursor:not-allowed;
+}
+
 #mensaje{
     display:none;
     margin-top:20px;
@@ -94,7 +97,6 @@ h1{
     font-size:12px;
     color:#999;
 }
-
 </style>
 
 </head>
@@ -108,12 +110,9 @@ h1{
         class="logo"
         alt="Grupo Carsa">
 
-    <h1>Tablero Reportes</h1>
-
-   <p class="subtitle">
-        Ingrese con su cuenta corporativa Microsoft
+ ese con su cuenta corporativa Microsoft
     </p>
-    
+
     <button
         id="loginButton"
         class="microsoft-button"
@@ -131,8 +130,7 @@ h1{
 
 <script>
 
-const CLIENT_ID =
-"2894ba73-12dc-4327-8fb5-9a1a5b2b133e";
+const CLIENT_ID = "2894ba73-12dc-4327-8fb5-9a1a5b2b133e";
 
 const REDIRECT_URI =
 "https://carsair2026-bi.github.io/Tablero_GrupoCarsa/redirect.html";
@@ -153,8 +151,7 @@ const msalConfig = {
     }
 };
 
-const msalInstance =
-    new msal.PublicClientApplication(msalConfig);
+const msalInstance = new msal.PublicClientApplication(msalConfig);
 
 const loginRequest = {
     scopes: [
@@ -166,14 +163,19 @@ const loginRequest = {
 
 function mostrarMensaje(texto,tipo){
 
-    const m =
+    const mensaje =
         document.getElementById("mensaje");
 
-    m.innerText = texto;
-    m.className = tipo;
+    mensaje.innerText = texto;
+    mensaje.className = tipo;
 }
 
 async function iniciarSesion(){
+
+    const boton =
+        document.getElementById("loginButton");
+
+    boton.disabled = true;
 
     try{
 
@@ -185,8 +187,10 @@ async function iniciarSesion(){
 
         console.error(error);
 
+        boton.disabled = false;
+
         mostrarMensaje(
-            error.message,
+            error.message || "Error de autenticación",
             "error"
         );
     }
@@ -207,56 +211,8 @@ async function procesarLogin(){
         (
             response.account.username ||
             response.account.idTokenClaims?.preferred_username ||
+            response.account.idTokenClaims?.email ||
             ""
         )
-        .toLowerCase()
-        .trim();
-
-        if(!correo.endsWith("@integraretail.pe")){
-
-            mostrarMensaje(
-                "Acceso permitido solo para cuentas @integraretail.pe",
-                "error"
-            );
-
-            await msalInstance.logoutRedirect();
-
-            return;
-        }
-
-        sessionStorage.setItem(
-            "usuarioMicrosoft",
-            JSON.stringify({
-                correo: correo,
-                nombre: response.account.name
-            })
-        );
-
-        mostrarMensaje(
-            "Ingreso correcto",
-            "success"
-        );
-
-        setTimeout(()=>{
-            window.location.href =
-                PORTAL_URL;
-        },1000);
-
-    }catch(error){
-
-        console.error(error);
-
-        mostrarMensaje(
-            error.message,
-            "error"
-        );
-    }
-}
-
-window.onload =
-    procesarLogin;
-
-</script>
-
-</body>
-</html>
+        .trim()
+        .toLowerCase
