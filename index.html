@@ -139,7 +139,7 @@ const msalConfig = {
         cacheLocation: "sessionStorage"
     }
 };
-
+console.log("MSAL =", window.msal);
 const msalInstance =
     new msal.PublicClientApplication(msalConfig);
 
