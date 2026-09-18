@@ -28,7 +28,7 @@ body{
 .login-card{
     width:90%;
     max-width:650px;
-    background:#ffffff;
+    background:#fff;
     border-radius:28px;
     padding:60px;
     text-align:center;
@@ -98,19 +98,18 @@ h1{
     color:#999;
 }
 </style>
-
 </head>
 
 <body>
 
 <div class="login-card">
 
-    <img
-        src="./logo.png"
-        class="logo"
-        alt="Grupo Carsa">
+    ./logo.png
 
- ese con su cuenta corporativa Microsoft
+    <h1>Tablero Reportes</h1>
+
+    <p class="subtitle">
+        Ingrese con su cuenta corporativa Microsoft
     </p>
 
     <button
@@ -151,68 +150,20 @@ const msalConfig = {
     }
 };
 
-const msalInstance = new msal.PublicClientApplication(msalConfig);
+let msalInstance;
 
-const loginRequest = {
-    scopes: [
-        "openid",
-        "profile",
-        "email"
-    ]
-};
+window.addEventListener("load", async () => {
 
-function mostrarMensaje(texto,tipo){
+    try {
 
-    const mensaje =
-        document.getElementById("mensaje");
-
-    mensaje.innerText = texto;
-    mensaje.className = tipo;
-}
-
-async function iniciarSesion(){
-
-    const boton =
-        document.getElementById("loginButton");
-
-    boton.disabled = true;
-
-    try{
-
-        await msalInstance.loginRedirect(
-            loginRequest
-        );
-
-    }catch(error){
-
-        console.error(error);
-
-        boton.disabled = false;
-
-        mostrarMensaje(
-            error.message || "Error de autenticación",
-            "error"
-        );
-    }
-}
-
-async function procesarLogin(){
-
-    try{
+        msalInstance =
+            new msal.PublicClientApplication(msalConfig);
 
         const response =
             await msalInstance.handleRedirectPromise();
 
-        if(!response){
-            return;
-        }
+        if (response && response.account) {
 
-        const correo =
-        (
-            response.account.username ||
-            response.account.idTokenClaims?.preferred_username ||
-            response.account.idTokenClaims?.email ||
-            ""
-        )
-        .trim()
-        .toLowerCase
+            const correo =
+                (
+              
