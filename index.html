@@ -9,6 +9,8 @@
     <link rel="shortcut icon" href="./icono.png">
     <link rel="icon" type="image/png" href="./icono.png">
 
+    <script src="credenciales.js"></script>
+
     <script src="https://alcdn.msauth.net/browser/2.37.1/js/msal-browser.min.js"
             onerror="this.onerror=null;var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/@azure/msal-browser@2.37.1/lib/msal-browser.min.js';s.onload=initMsal;s.onerror=function(){mostrarMensaje('No se pudo cargar la librería de Microsoft. Revisa tu conexión.','error');};document.head.appendChild(s);"></script>
 
@@ -75,6 +77,69 @@
             cursor:not-allowed;
         }
 
+        .separador{
+            display:flex;
+            align-items:center;
+            text-align:center;
+            color:#999;
+            font-size:13px;
+            margin:22px 0;
+        }
+
+        .separador::before,
+        .separador::after{
+            content:"";
+            flex:1;
+            border-bottom:1px solid #e0e0e0;
+        }
+
+        .separador span{
+            padding:0 12px;
+        }
+
+        #formCredenciales{
+            display:flex;
+            flex-direction:column;
+            gap:12px;
+        }
+
+        .campo{
+            width:100%;
+            min-height:52px;
+            padding:0 16px;
+            border:1px solid #ddd;
+            border-radius:10px;
+            font-size:16px;
+            font-family:inherit;
+        }
+
+        .campo:focus{
+            outline:none;
+            border-color:#E51C22;
+        }
+
+        .password-button{
+            width:100%;
+            min-height:52px;
+            border:none;
+            border-radius:10px;
+            background:#E51C22;
+            color:#fff;
+            cursor:pointer;
+            font-size:16px;
+            font-weight:600;
+            transition: background .2s ease, opacity .2s ease;
+        }
+
+        .password-button:hover{
+            background:#c8171c;
+        }
+
+        .password-button:disabled{
+            opacity:.6;
+            cursor:not-allowed;
+        }
+
         #mensaje{
             display:none;
             margin-top:20px;
@@ -120,6 +185,32 @@
         class="microsoft-button">
         Iniciar sesión con Microsoft
     </button>
+
+    <div class="separador">
+        <span>o</span>
+    </div>
+
+    <form id="formCredenciales" autocomplete="off">
+        <input
+            type="text"
+            id="usuario"
+            class="campo"
+            placeholder="Usuario"
+            autocomplete="username">
+
+        <input
+            type="password"
+            id="contrasena"
+            class="campo"
+            placeholder="Contraseña"
+            autocomplete="current-password">
+
+        <button
+            type="submit"
+            class="password-button">
+            Iniciar sesión
+        </button>
+    </form>
 
     <div id="mensaje"></div>
 
@@ -235,6 +326,48 @@ function initMsal() {
 if (typeof msal !== "undefined") {
     initMsal();
 }
+
+// ---- LOGIN CON USUARIO Y CONTRASEÑA ----
+// Las credenciales viven en credenciales.js (variable CREDENCIALES_ACCESO).
+// Nota: seguir estando en otro archivo no las hace privadas — ese archivo
+// también es público en GitHub Pages. Esto es solo una pantalla de acceso
+// simple, no una validación de seguridad real.
+const USUARIO_VALIDO = (typeof CREDENCIALES_ACCESO !== "undefined") ? CREDENCIALES_ACCESO.usuario : "";
+const CONTRASENA_VALIDA = (typeof CREDENCIALES_ACCESO !== "undefined") ? CREDENCIALES_ACCESO.contrasena : "";
+
+const formCredenciales = document.getElementById("formCredenciales");
+
+formCredenciales.addEventListener("submit", (evento) => {
+
+    evento.preventDefault();
+
+    if (typeof CREDENCIALES_ACCESO === "undefined") {
+        mostrarMensaje("No se pudo cargar el archivo de credenciales (credenciales.js).", "error");
+        return;
+    }
+
+    const usuario = document.getElementById("usuario").value.trim();
+    const contrasena = document.getElementById("contrasena").value;
+
+    const botonSubmit = formCredenciales.querySelector(".password-button");
+
+    if (usuario === USUARIO_VALIDO && contrasena === CONTRASENA_VALIDA) {
+
+        botonSubmit.disabled = true;
+        botonSubmit.innerText = "Ingresando...";
+
+        sessionStorage.setItem("accesoValidado", "usuarioContrasena");
+
+        mostrarMensaje("Acceso correcto. Redirigiendo...", "success");
+
+        setTimeout(() => {
+            window.location.href = "dashboard.html";
+        }, 800);
+
+    } else {
+        mostrarMensaje("Usuario o contraseña incorrectos.", "error");
+    }
+});
 
 </script>
 
