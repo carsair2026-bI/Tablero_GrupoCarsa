@@ -9,7 +9,8 @@
     <link rel="shortcut icon" href="./icono.png">
     <link rel="icon" type="image/png" href="./icono.png">
 
-    <script src="https://alcdn.msauth.net/browser/2.39.0/js/msal-browser.min.js"></script>
+    <script src="https://alcdn.msauth.net/browser/2.37.1/js/msal-browser.min.js"
+            onerror="this.onerror=null;var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/@azure/msal-browser@2.37.1/lib/msal-browser.min.js';s.onload=initMsal;s.onerror=function(){mostrarMensaje('No se pudo cargar la librería de Microsoft. Revisa tu conexión.','error');};document.head.appendChild(s);"></script>
 
     <style>
         *{
@@ -138,15 +139,19 @@ function mostrarMensaje(texto, tipo){
     mensajeEl.innerText = texto;
 }
 
-if (typeof msal === "undefined") {
-    console.error("MSAL no cargó");
-    mostrarMensaje(
-        "Error cargando librería Microsoft Authentication Library.",
-        "error"
-    );
-    loginButton.disabled = true;
+let msalInstance = null;
 
-} else {
+function initMsal() {
+
+    if (typeof msal === "undefined") {
+        console.error("MSAL no cargó");
+        mostrarMensaje(
+            "Error cargando librería Microsoft Authentication Library.",
+            "error"
+        );
+        loginButton.disabled = true;
+        return;
+    }
 
     // ---- CONFIGURACIÓN ----
     // Client ID de tu registro en Azure AD (App registrations)
@@ -172,7 +177,7 @@ if (typeof msal === "undefined") {
         }
     };
 
-    const msalInstance = new msal.PublicClientApplication(msalConfig);
+    msalInstance = new msal.PublicClientApplication(msalConfig);
 
     // Si el usuario ya inició sesión antes en esta pestaña, evita
     // mostrarle el botón innecesariamente
@@ -188,6 +193,8 @@ if (typeof msal === "undefined") {
             console.error("Error inicializando MSAL:", e);
         }
     })();
+
+    loginButton.disabled = false;
 
     loginButton.addEventListener("click", async () => {
 
@@ -220,6 +227,13 @@ if (typeof msal === "undefined") {
             loginButton.innerText = "Iniciar sesión con Microsoft";
         }
     });
+}
+
+// Si el script principal ya cargó normalmente, inicializa de inmediato.
+// Si falló y se está usando el respaldo de jsDelivr, initMsal() se
+// llama desde el "onload" de ese script (ver el <script> de arriba).
+if (typeof msal !== "undefined") {
+    initMsal();
 }
 
 </script>
