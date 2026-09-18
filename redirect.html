@@ -9,7 +9,8 @@
     <link rel="shortcut icon" href="./icono.png">
     <link rel="icon" type="image/png" href="./icono.png">
 
-    <script src="https://alcdn.msauth.net/browser/2.39.0/js/msal-browser.min.js"></script>
+    <script src="https://alcdn.msauth.net/browser/2.37.1/js/msal-browser.min.js"
+            onerror="this.onerror=null;var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/@azure/msal-browser@2.37.1/lib/msal-browser.min.js';s.onload=initMsal;s.onerror=function(){mostrarMensaje('No se pudo cargar la librería de Microsoft. Revisa tu conexión.','error');mostrarVolver();};document.head.appendChild(s);"></script>
 
     <style>
         *{
@@ -121,11 +122,13 @@ function mostrarVolver(){
     volverLink.style.display = "inline-block";
 }
 
-if (typeof msal === "undefined") {
-    mostrarMensaje("Error cargando librería Microsoft Authentication Library.", "error");
-    mostrarVolver();
+function initMsal() {
 
-} else {
+    if (typeof msal === "undefined") {
+        mostrarMensaje("Error cargando librería Microsoft Authentication Library.", "error");
+        mostrarVolver();
+        return;
+    }
 
     // Debe ser IDÉNTICA a la configuración de index.html
     const CLIENT_ID = "2894ba73-12dc-4327-8fb5-9a1a5b2b133e";
@@ -199,6 +202,13 @@ if (typeof msal === "undefined") {
             mostrarVolver();
         }
     })();
+}
+
+// Si el script principal ya cargó normalmente, procesa de inmediato.
+// Si falló y se está usando el respaldo de jsDelivr, initMsal() se
+// llama desde el "onload" de ese script (ver el <script> de arriba).
+if (typeof msal !== "undefined") {
+    initMsal();
 }
 
 </script>
