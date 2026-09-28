@@ -6,7 +6,7 @@ const BASE_URL  = "https://carsair2026-bi.github.io/Tablero_GrupoCarsa/";
 const msalConfig = {
     auth: {
         clientId: CLIENT_ID,
-        authority: "https://login.microsoftonline.com/" + TENANT_ID, // solo tu organización
+        authority: "https://login.microsoftonline.com/" + TENANT_ID,
         redirectUri: BASE_URL + "redirect.html",
         postLogoutRedirectUri: BASE_URL + "index.html"
     },
@@ -38,7 +38,7 @@ async function cargarMsal() {
     }
 }
 
-// ================== INSTANCIA Y SESIÓN ==================
+// ================== INSTANCIA Y SESIÓN MICROSOFT ==================
 let msalInstance = null;
 
 async function getMsal() {
@@ -49,7 +49,7 @@ async function getMsal() {
     return msalInstance;
 }
 
-// Devuelve la cuenta logueada (o null). Procesa también el retorno de Microsoft.
+// Devuelve la cuenta Microsoft logueada (o null). Procesa el retorno de Microsoft.
 async function obtenerCuenta() {
     const app = await getMsal();
     const respuesta = await app.handleRedirectPromise();
@@ -63,4 +63,9 @@ async function obtenerCuenta() {
 
     if (cuenta) app.setActiveAccount(cuenta);
     return cuenta;
+}
+
+// ================== ACCESO CON USUARIO Y CONTRASEÑA ==================
+function tieneAccesoUsuario() {
+    return sessionStorage.getItem("accesoValidado") === "usuarioContrasena";
 }
