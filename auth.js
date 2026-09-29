@@ -15,7 +15,10 @@ const msalConfig = {
     }
 };
 
-const LOGIN_REQUEST = { scopes: ["User.Read"] };
+const LOGIN_REQUEST = {
+    scopes: ["User.Read"],
+    prompt: "select_account"
+};
 
 function cargarScript(src) {
     return new Promise((resolve, reject) => {
