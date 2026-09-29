@@ -1,272 +1,275 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acceso - Grupo Carsa</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reportes Grupo Carsa</title>
+<link rel="shortcut icon" href="./icono.png">
+<link rel="icon" type="image/png" href="./icono.png">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
-    <link rel="shortcut icon" href="./icono.png">
-    <link rel="icon" type="image/png" href="./icono.png">
+<script src="credenciales.js"></script>
+<script src="auth.js"></script>
 
-    <script src="credenciales.js"></script>
-    <script src="auth.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:linear-gradient(135deg,#f5f7fa,#e4e8f0);font-family:'Segoe UI',Arial,sans-serif;min-height:100vh}
+.oculto{display:none !important}
 
-    <style>
-        *{
-            box-sizing:border-box;
-        }
+/* ---------- LOGIN ---------- */
+#vistaLogin{min-height:100vh;display:flex;justify-content:center;align-items:center;padding:20px}
+.login-card{width:90%;max-width:650px;background:#fff;border-radius:28px;padding:60px;text-align:center;box-shadow:0 25px 70px rgba(0,0,0,.15)}
+.login-card .logo{width:420px;max-width:100%;margin-bottom:30px}
+.login-card h1{margin:0 0 15px;color:#111}
+.subtitle{color:#666;margin-bottom:35px}
+.microsoft-button{width:100%;min-height:68px;border:none;border-radius:10px;background:#2f2f2f;color:#fff;cursor:pointer;font-size:18px;font-weight:600;transition:background .2s,opacity .2s}
+.microsoft-button:hover{background:#1f1f1f}
+.microsoft-button:disabled,.password-button:disabled{opacity:.6;cursor:not-allowed}
+.separador{display:flex;align-items:center;color:#999;font-size:13px;margin:22px 0}
+.separador::before,.separador::after{content:"";flex:1;border-bottom:1px solid #e0e0e0}
+.separador span{padding:0 12px}
+#formCredenciales{display:flex;flex-direction:column;gap:12px}
+.campo{width:100%;min-height:52px;padding:0 16px;border:1px solid #ddd;border-radius:10px;font-size:16px;font-family:inherit}
+.campo:focus{outline:none;border-color:#E51C22}
+.password-button{width:100%;min-height:52px;border:none;border-radius:10px;background:#E51C22;color:#fff;cursor:pointer;font-size:16px;font-weight:600}
+.password-button:hover{background:#c8171c}
+#mensaje{display:none;margin-top:20px;padding:15px;border-radius:10px;text-align:left}
+#mensaje.error{display:block;background:#fdecec;color:#b00020}
+#mensaje.success{display:block;background:#eaf7ed;color:#187333}
+.footer{margin-top:25px;font-size:12px;color:#999}
 
-        body{
-            margin:0;
-            min-height:100vh;
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            font-family:"Segoe UI",Arial,sans-serif;
-            background:linear-gradient(135deg,#f5f7fa,#e4e8f0);
-        }
-
-        .login-card{
-            width:90%;
-            max-width:650px;
-            background:#fff;
-            border-radius:28px;
-            padding:60px;
-            text-align:center;
-            box-shadow:0 25px 70px rgba(0,0,0,.15);
-        }
-
-        .logo{
-            width:420px;
-            max-width:100%;
-            margin-bottom:30px;
-        }
-
-        h1{
-            margin:0 0 15px;
-            color:#111;
-        }
-
-        .subtitle{
-            color:#666;
-            margin-bottom:35px;
-        }
-
-        .microsoft-button{
-            width:100%;
-            min-height:68px;
-            border:none;
-            border-radius:10px;
-            background:#2f2f2f;
-            color:#fff;
-            cursor:pointer;
-            font-size:18px;
-            font-weight:600;
-            transition: background .2s ease, opacity .2s ease;
-        }
-
-        .microsoft-button:hover{
-            background:#1f1f1f;
-        }
-
-        .microsoft-button:disabled{
-            opacity:.6;
-            cursor:not-allowed;
-        }
-
-        .separador{
-            display:flex;
-            align-items:center;
-            text-align:center;
-            color:#999;
-            font-size:13px;
-            margin:22px 0;
-        }
-
-        .separador::before,
-        .separador::after{
-            content:"";
-            flex:1;
-            border-bottom:1px solid #e0e0e0;
-        }
-
-        .separador span{
-            padding:0 12px;
-        }
-
-        #formCredenciales{
-            display:flex;
-            flex-direction:column;
-            gap:12px;
-        }
-
-        .campo{
-            width:100%;
-            min-height:52px;
-            padding:0 16px;
-            border:1px solid #ddd;
-            border-radius:10px;
-            font-size:16px;
-            font-family:inherit;
-        }
-
-        .campo:focus{
-            outline:none;
-            border-color:#E51C22;
-        }
-
-        .password-button{
-            width:100%;
-            min-height:52px;
-            border:none;
-            border-radius:10px;
-            background:#E51C22;
-            color:#fff;
-            cursor:pointer;
-            font-size:16px;
-            font-weight:600;
-            transition: background .2s ease, opacity .2s ease;
-        }
-
-        .password-button:hover{
-            background:#c8171c;
-        }
-
-        .password-button:disabled{
-            opacity:.6;
-            cursor:not-allowed;
-        }
-
-        #mensaje{
-            display:none;
-            margin-top:20px;
-            padding:15px;
-            border-radius:10px;
-            text-align:left;
-        }
-
-        .error{
-            display:block;
-            background:#fdecec;
-            color:#b00020;
-        }
-
-        .success{
-            display:block;
-            background:#eaf7ed;
-            color:#187333;
-        }
-
-        .footer{
-            margin-top:25px;
-            font-size:12px;
-            color:#999;
-        }
-    </style>
+/* ---------- DASHBOARD ---------- */
+#vistaDashboard{padding:20px}
+.navbar{background:#E51C22;border-radius:25px;padding:12px 30px;margin-bottom:25px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 10px 30px rgba(0,0,0,.15)}
+.navbar-left{display:flex;align-items:center;gap:20px}
+.navbar .logo{height:80px;width:auto;object-fit:contain}
+.navbar-title{color:#fff;font-size:42px;font-weight:800}
+.logout-btn{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.5);border-radius:20px;padding:10px 20px;font-size:14px;font-weight:600;cursor:pointer;transition:.2s;white-space:nowrap}
+.logout-btn:hover{background:#fff;color:#E51C22}
+.dashboard-grid{display:grid;grid-template-columns:repeat(4,minmax(200px,280px));gap:12px;justify-content:center;margin:0 auto 15px;max-width:1800px}
+.card-btn{display:flex;align-items:center;gap:16px;padding:20px;border-radius:28px;background:#fff;border-left:8px solid #E51C22;cursor:pointer;transition:.35s;box-shadow:0 5px 5px rgba(0,0,0,.06)}
+.card-btn:hover{transform:translateY(-8px);background:#E51C22;color:#fff;box-shadow:0 20px 40px rgba(229,28,34,.25)}
+.card-btn:hover p,.card-btn:hover i{color:#fff}
+.card-btn i{font-size:42px;min-width:40px}
+.card-btn h3{margin:0;font-size:14px;font-weight:700}
+.card-btn p{margin-top:5px;color:#6b7280;font-size:13px}
+.report-card{background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 10px 25px rgba(0,0,0,.12)}
+.report-header{background:linear-gradient(135deg,#ff4d4d,#d90429);color:#fff;padding:14px;text-align:center;font-size:28px;font-weight:700}
+#placeholder{height:850px;display:flex;justify-content:center;align-items:center;flex-direction:column;background:linear-gradient(135deg,#f8fafc,#eef2f7)}
+.placeholder-title{font-size:48px;font-weight:800;color:#dc3545}
+.placeholder-text{margin-top:15px;color:#6b7280;font-size:20px}
+.arrow{font-size:60px;display:inline-block;animation:bounce 1.2s infinite}
+#visor{width:100%;height:900px;border:none;display:none}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@media(max-width:1200px){
+  .dashboard-grid{grid-template-columns:repeat(2,1fr)}
+  .navbar{flex-direction:column;justify-content:center;gap:15px}
+  .navbar-left{flex-direction:column;text-align:center}
+  .navbar-title{font-size:32px}
+  .navbar .logo{height:70px}
+}
+@media(max-width:600px){.dashboard-grid{grid-template-columns:1fr}}
+</style>
 </head>
 
 <body>
 
-<div class="login-card">
-
-    <img src="logo.png" class="logo" alt="Grupo Carsa">
-
-    <h1>Tablero Reportes</h1>
-
-    <p class="subtitle">
-        Ingrese con su cuenta corporativa Microsoft
-    </p>
-
-    <button
-        id="loginButton"
-        class="microsoft-button">
-        Iniciar sesión con Microsoft
-    </button>
-
-    <div class="separador">
-        <span>o</span>
-    </div>
-
-    <form id="formCredenciales" autocomplete="off">
-        <input
-            type="text"
-            id="usuario"
-            class="campo"
-            placeholder="Usuario"
-            autocomplete="username">
-
-        <input
-            type="password"
-            id="contrasena"
-            class="campo"
-            placeholder="Contraseña"
-            autocomplete="current-password">
-
-        <button
-            type="submit"
-            class="password-button">
-            Iniciar sesión
-        </button>
-    </form>
-
-    <div id="mensaje"></div>
-
-    <div class="footer">
-        Acceso exclusivo para usuarios de Integra Retail
-    </div>
-
+<!-- Pantalla de carga mientras se valida la sesión -->
+<div id="vistaCarga" style="min-height:100vh;display:flex;justify-content:center;align-items:center;color:#666">
+    Validando acceso...
 </div>
 
+<!-- ================= LOGIN ================= -->
+<div id="vistaLogin" class="oculto">
+    <div class="login-card">
+        <img src="logo.png" class="logo" alt="Grupo Carsa">
+        <h1>Tablero Reportes</h1>
+        <p class="subtitle">Ingrese con su cuenta corporativa Microsoft</p>
+
+        <button id="loginButton" class="microsoft-button" disabled>Iniciar sesión con Microsoft</button>
+
+        <div class="separador"><span>o</span></div>
+
+        <form id="formCredenciales" autocomplete="off">
+            <input type="text" id="usuario" class="campo" placeholder="Usuario" autocomplete="username">
+            <input type="password" id="contrasena" class="campo" placeholder="Contraseña" autocomplete="current-password">
+            <button type="submit" class="password-button">Iniciar sesión</button>
+        </form>
+
+        <div id="mensaje"></div>
+        <div class="footer">Acceso exclusivo para usuarios de Integra Retail</div>
+    </div>
+</div>
+
+<!-- El dashboard NO existe en el HTML: se construye por JS solo tras validar -->
+<div id="vistaDashboard" class="oculto"></div>
+
 <script>
+// ================== REPORTES (solo se usan tras el login) ==================
+function obtenerReportes() {
+    const B = "https://app.powerbi.com/view?r=";
+    return [
+        { n:"Rentabilidad",          i:"bi-cash-coin",         d:"Indicadores Financieros",                  u:B+"eyJrIjoiYzM5NWNkMjMtYmQ3MC00ZTBiLWFlMmItN2EzOTM5OWM3N2UxIiwidCI6IjAyMDhhY2YzLTJiYjQtNGMzYi04MGQ5LTM2YTY4M2Y3OWZkNiJ9&pageName=4f3ec2d505b72e41aec3" },
+        { n:"Venta QT",              i:"bi-graph-up-arrow",    d:"Indicadores comerciales",                  u:B+"eyJrIjoiZDEwZWI3NjgtMTE0Mi00NmNmLWI3NTctMmUzY2Y0NzVmZTQ4IiwidCI6IjAyMDhhY2YzLTJiYjQtNGMzYi04MGQ5LTM2YTY4M2Y3OWZkNiJ9&pageName=2b13e294406015565300" },
+        { n:"Venta CrediCash",       i:"bi-cash",              d:"Indicadores Desembolso Efectivo",          u:B+"eyJrIjoiMjZkMmU3MjctZjk2My00ZGVlLWI1YzEtNjdmNjgwOGYzODc5IiwidCI6IjAyMDhhY2YzLTJiYjQtNGMzYi04MGQ5LTM2YTY4M2Y3OWZkNiJ9&pageName=2b13e294406015565300" },
+        { n:"Alianzas y Aliados",    i:"bi-people",            d:"Formas de Pago Aliados",                   u:B+"eyJrIjoiNDg4NWZiNzQtY2M1MC00ZjJhLTg5OWItYmNhNTgyMDY5YzBhIiwidCI6IjAyMDhhY2YzLTJiYjQtNGMzYi04MGQ5LTM2YTY4M2Y3OWZkNiJ9&pageName=5ef92a0a4e9e89bd680e" },
+        { n:"Productividad",         i:"bi-lightning-charge",  d:"Seguimiento de Productividad por vendedor",u:B+"eyJrIjoiMTFkN2Q0NzQtNDQ0OS00MmRmLWI3N2YtYzYzZTA2NGQwOTdjIiwidCI6IjAyMDhhY2YzLTJiYjQtNGMzYi04MGQ5LTM2YTY4M2Y3OWZkNiJ9&pageName=75c69a2c852cdab9c419" },
+        { n:"Liquidación Antigüedad",i:"bi-calendar-check",    d:"Seguimiento de antigüedad",                u:B+"eyJrIjoiZGU5NWZkMWItMzQyZC00MWYxLWI4MmEtY2VkODFkNTUxMzU1IiwidCI6IjAyMDhhY2YzLTJiYjQtNGMzYi04MGQ5LTM2YTY4M2Y3OWZkNiJ9&pageName=9d45593874a64936a66d" },
+        { n:"Bolsa Tienda",          i:"bi-bar-chart-fill",    d:"Indicadores estratégicos",                 u:B+"eyJrIjoiNWE0OWJhMWMtNTU5Ny00YmU5LWI2N2QtOGNjYzg2YjMwZDEzIiwidCI6IjAyMDhhY2YzLTJiYjQtNGMzYi04MGQ5LTM2YTY4M2Y3OWZkNiJ9&pageName=eccb299d317937f2f476" },
+        { n:"Integrados",            i:"bi-bar-chart-fill",    d:"Indicadores estratégicos",                 u:B+"eyJrIjoiNjNiMTU2MzQtYWI2Ni00NWI5LTg4OWEtYzAwZjViMjg4NGFlIiwidCI6IjAyMDhhY2YzLTJiYjQtNGMzYi04MGQ5LTM2YTY4M2Y3OWZkNiJ9&pageName=4f3ec2d505b72e41aec3" },
+        { n:"OIC",                   i:"bi-eye",               d:"Indicadores OIC",                          u:B+"eyJrIjoiZTZiNjBkNGYtMTBmOS00YWU5LWEyMmEtMzI0MDIyZjdkMzhhIiwidCI6IjAyMDhhY2YzLTJiYjQtNGMzYi04MGQ5LTM2YTY4M2Y3OWZkNiJ9&pageName=2b13e294406015565300" }
+    ];
+}
 
-const mensajeEl = document.getElementById("mensaje");
-const loginButton = document.getElementById("loginButton");
-const formCredenciales = document.getElementById("formCredenciales");
+// ================== UTILIDADES DE VISTA ==================
+const $ = (id) => document.getElementById(id);
+const mensajeEl = $("mensaje");
 
-function mostrarMensaje(texto, tipo){
+function mostrarMensaje(texto, tipo) {
     mensajeEl.className = tipo;
     mensajeEl.innerText = texto;
 }
 
-// ---- Si ya hay acceso por usuario/contraseña, entra directo ----
-if (tieneAccesoUsuario()) {
-    window.location.replace("dashboard.html");
+function mostrarLogin() {
+    $("vistaCarga").classList.add("oculto");
+    $("vistaDashboard").classList.add("oculto");
+    $("vistaDashboard").innerHTML = "";          // el dashboard se destruye
+    $("vistaLogin").classList.remove("oculto");
 }
 
-// ---- LOGIN MICROSOFT ----
-loginButton.disabled = true;
+// ================== CONSTRUIR DASHBOARD (solo con acceso válido) ==================
+function mostrarDashboard() {
+    const cont = $("vistaDashboard");
 
+    const tarjetas = obtenerReportes().map((r, idx) => `
+        <div class="card-btn" data-idx="${idx}">
+            <i class="bi ${r.i}"></i>
+            <div><h3>${r.n}</h3><p>${r.d}</p></div>
+        </div>`).join("");
+
+    cont.innerHTML = `
+        <div class="navbar">
+            <div class="navbar-left">
+                <img src="logo.png" class="logo" alt="Logo Grupo Carsa">
+                <div class="navbar-title">Reportes Grupo Carsa</div>
+            </div>
+            <button id="btnCerrarSesion" class="logout-btn">
+                <i class="bi bi-box-arrow-right"></i> Cerrar sesión
+            </button>
+        </div>
+
+        <div class="dashboard-grid">${tarjetas}</div>
+
+        <div class="report-card">
+            <div class="report-header" id="titulo">Selecciona un reporte</div>
+            <div id="placeholder">
+                <div class="placeholder-title"><span class="arrow">⬆️</span> Selecciona Tu Reporte</div>
+                <div class="placeholder-text">Selecciona uno de los reportes para visualizar la información</div>
+            </div>
+            <iframe id="visor" allowfullscreen></iframe>
+        </div>`;
+
+    const reportes = obtenerReportes();
+    cont.querySelectorAll(".card-btn").forEach((el) => {
+        el.addEventListener("click", () => {
+            const r = reportes[el.dataset.idx];
+            $("titulo").innerText = r.n;
+            $("placeholder").style.display = "none";
+            const visor = $("visor");
+            visor.style.display = "block";
+            visor.src = r.u;
+            document.querySelector(".report-card").scrollIntoView({ behavior: "smooth", block: "start" });
+        });
+    });
+
+    $("btnCerrarSesion").addEventListener("click", cerrarSesion);
+
+    $("vistaCarga").classList.add("oculto");
+    $("vistaLogin").classList.add("oculto");
+    cont.classList.remove("oculto");
+
+    iniciarTemporizadorInactividad();
+}
+
+// ================== CERRAR SESIÓN ==================
+async function cerrarSesion() {
+    if (tieneAccesoUsuario()) {
+        sessionStorage.clear();
+        window.location.replace("index.html");
+        return;
+    }
+    try {
+        const app = await getMsal();
+        const cuenta = app.getActiveAccount() || app.getAllAccounts()[0];
+        await app.logoutRedirect({ account: cuenta });
+    } catch (e) {
+        sessionStorage.clear();
+        window.location.replace("index.html");
+    }
+}
+
+// ================== INACTIVIDAD (30 min) ==================
+const TIEMPO_INACTIVIDAD_MS = 30 * 60 * 1000;
+let temporizadorInactividad = null;
+
+function reiniciarTemporizadorInactividad() {
+    clearTimeout(temporizadorInactividad);
+    temporizadorInactividad = setTimeout(() => {
+        alert("Tu sesión se cerró por inactividad.");
+        cerrarSesion();
+    }, TIEMPO_INACTIVIDAD_MS);
+}
+
+function iniciarTemporizadorInactividad() {
+    ["mousemove", "mousedown", "keydown", "scroll", "touchstart", "click"]
+        .forEach((ev) => document.addEventListener(ev, reiniciarTemporizadorInactividad, { passive: true }));
+    reiniciarTemporizadorInactividad();
+}
+
+// ================== ARRANQUE: decide qué vista mostrar ==================
 (async () => {
+    // 1) Acceso por usuario/contraseña
+    if (tieneAccesoUsuario()) {
+        mostrarDashboard();
+        return;
+    }
+
+    // 2) Acceso por Microsoft
     try {
         const cuenta = await obtenerCuenta();
         if (cuenta) {
-            window.location.replace("dashboard.html");
+            mostrarDashboard();
             return;
         }
-        loginButton.disabled = false;
+        $("loginButton").disabled = false;
     } catch (e) {
         console.error(e);
         mostrarMensaje("No se pudo cargar el inicio de sesión de Microsoft. Puedes ingresar con usuario y contraseña.", "error");
     }
+
+    // 3) Sin acceso: solo se ve el login
+    mostrarLogin();
 })();
 
-loginButton.addEventListener("click", async () => {
-    loginButton.disabled = true;
-    loginButton.innerText = "Redirigiendo...";
+// ================== LOGIN MICROSOFT ==================
+$("loginButton").addEventListener("click", async () => {
+    const btn = $("loginButton");
+    btn.disabled = true;
+    btn.innerText = "Redirigiendo...";
     try {
         const app = await getMsal();
         await app.loginRedirect(LOGIN_REQUEST);
     } catch (error) {
         console.error(error);
         mostrarMensaje("No se pudo iniciar sesión: " + (error.errorMessage || error.message), "error");
-        loginButton.disabled = false;
-        loginButton.innerText = "Iniciar sesión con Microsoft";
+        btn.disabled = false;
+        btn.innerText = "Iniciar sesión con Microsoft";
     }
 });
 
-// ---- LOGIN CON USUARIO Y CONTRASEÑA (credenciales.js) ----
-formCredenciales.addEventListener("submit", (evento) => {
-
+// ================== LOGIN USUARIO Y CONTRASEÑA ==================
+$("formCredenciales").addEventListener("submit", (evento) => {
     evento.preventDefault();
 
     if (typeof CREDENCIALES_ACCESO === "undefined") {
@@ -274,28 +277,16 @@ formCredenciales.addEventListener("submit", (evento) => {
         return;
     }
 
-    const usuario = document.getElementById("usuario").value.trim();
-    const contrasena = document.getElementById("contrasena").value;
-    const botonSubmit = formCredenciales.querySelector(".password-button");
+    const usuario = $("usuario").value.trim();
+    const contrasena = $("contrasena").value;
 
     if (usuario === CREDENCIALES_ACCESO.usuario && contrasena === CREDENCIALES_ACCESO.contrasena) {
-
-        botonSubmit.disabled = true;
-        botonSubmit.innerText = "Ingresando...";
-
         sessionStorage.setItem("accesoValidado", "usuarioContrasena");
-
-        mostrarMensaje("Acceso correcto. Redirigiendo...", "success");
-
-        setTimeout(() => {
-            window.location.replace("dashboard.html");
-        }, 800);
-
+        mostrarDashboard();
     } else {
         mostrarMensaje("Usuario o contraseña incorrectos.", "error");
     }
 });
-
 </script>
 
 </body>
