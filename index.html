@@ -127,9 +127,9 @@ const msalConfig = {
     auth: {
         clientId: CLIENT_ID,
         authority: "https://login.microsoftonline.com/" + TENANT_ID,
-        redirectUri: BASE_URL + "index.html",
+        redirectUri: BASE_URL + "redirect.html",          // <-- la que ya estaba registrada
         postLogoutRedirectUri: BASE_URL + "index.html",
-        navigateToLoginRequestUrl: false   // procesa el retorno aquí mismo, sin saltar a otra URL
+        navigateToLoginRequestUrl: false
     },
     cache: {
         cacheLocation: "sessionStorage",
