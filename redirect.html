@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Validando acceso...</title>
+    <script src="https://alcdn.msauth.net/browser/2.37.1/js/msal-browser.min.js"></script>
+</head>
+<body style="font-family:Segoe UI,Arial,sans-serif;text-align:center;padding-top:80px;">
+    <p>Validando acceso, un momento...</p>
+
+    <script>
+    (async () => {
+        try {
+            const app = new msal.PublicClientApplication({
+                auth: {
+                    clientId: "a18f7ac2-a67a-425e-9abd-140b5c1278b5",
+                    authority: "https://login.microsoftonline.com/0208acf3-2bb4-4c3b-80d9-36a683f79fd6",
+                    redirectUri: "https://carsair2026-bi.github.io/Tablero_GrupoCarsa/redirect.html"
+                },
+                cache: { cacheLocation: "sessionStorage" }
+            });
+            await app.initialize();
+            await app.handleRedirectPromise();   // guarda la sesión en sessionStorage
+        } catch (e) {
+            console.error(e);
+        }
+        window.location.replace("index.html");   // el index detecta la cuenta y muestra el dashboard
+    })();
+    </script>
+</body>
+</html>
