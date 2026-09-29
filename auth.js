@@ -1,4 +1,3 @@
-// ================== CONFIGURACIÓN ÚNICA ==================
 const CLIENT_ID = "a18f7ac2-a67a-425e-9abd-140b5c1278b5";
 const TENANT_ID = "0208acf3-2bb4-4c3b-80d9-36a683f79fd6";
 const BASE_URL  = "https://carsair2026-bi.github.io/Tablero_GrupoCarsa/";
@@ -18,7 +17,6 @@ const msalConfig = {
 
 const LOGIN_REQUEST = { scopes: ["User.Read"] };
 
-// ================== CARGA DE MSAL (con respaldo) ==================
 function cargarScript(src) {
     return new Promise((resolve, reject) => {
         const s = document.createElement("script");
@@ -38,7 +36,6 @@ async function cargarMsal() {
     }
 }
 
-// ================== INSTANCIA Y SESIÓN MICROSOFT ==================
 let msalInstance = null;
 
 async function getMsal() {
@@ -49,14 +46,12 @@ async function getMsal() {
     return msalInstance;
 }
 
-// Devuelve la cuenta Microsoft logueada (o null). Procesa el retorno de Microsoft.
 async function obtenerCuenta() {
     const app = await getMsal();
     const respuesta = await app.handleRedirectPromise();
 
     let cuenta = (respuesta && respuesta.account) || app.getAllAccounts()[0] || null;
 
-    // Solo cuentas de tu tenant
     if (cuenta && cuenta.tenantId && cuenta.tenantId !== TENANT_ID) {
         cuenta = null;
     }
@@ -65,7 +60,6 @@ async function obtenerCuenta() {
     return cuenta;
 }
 
-// ================== ACCESO CON USUARIO Y CONTRASEÑA ==================
 function tieneAccesoUsuario() {
     return sessionStorage.getItem("accesoValidado") === "usuarioContrasena";
 }
