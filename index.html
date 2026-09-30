@@ -26,7 +26,6 @@ body{
     display:none !important
 }
 
-/* LOGIN */
 #vistaLogin{
     min-height:100vh;
     display:flex;
@@ -110,7 +109,6 @@ body{
     color:#999
 }
 
-/* DASHBOARD */
 #vistaDashboard{
     padding:20px
 }
@@ -310,13 +308,9 @@ body{
 </head>
 
 <body>
-
-<!-- PANTALLA DE CARGA -->
 <div id="vistaCarga" style="min-height:100vh;display:flex;justify-content:center;align-items:center;color:#666">
     Validando acceso...
 </div>
-
-<!-- LOGIN MICROSOFT -->
 <div id="vistaLogin" class="oculto">
     <div class="login-card">
 
@@ -340,11 +334,7 @@ body{
 
     </div>
 </div>
-
-<!-- DASHBOARD -->
 <div id="vistaDashboard" class="oculto"></div>
-
-<!-- MSAL -->
 <script src="https://alcdn.msauth.net/browser/2.37.1/js/msal-browser.min.js"></script>
 
 <script>
@@ -356,15 +346,9 @@ if(typeof msal === "undefined"){
 </script>
 
 <script>
-
-/* ================== CONFIGURACIÓN MICROSOFT ================== */
-
 const CLIENT_ID = "a18f7ac2-a67a-425e-9abd-140b5c1278b5";
-
 const TENANT_ID = "0208acf3-2bb4-4c3b-80d9-36a683f79fd6";
-
 const BASE_URL = "https://carsair2026-bi.github.io/Tablero_GrupoCarsa/";
-
 const msalConfig = {
     auth:{
         clientId:CLIENT_ID,
@@ -384,10 +368,6 @@ const LOGIN_REQUEST = {
     scopes:["User.Read"],
     prompt:"select_account"
 };
-
-
-/* ================== SESIÓN MICROSOFT ================== */
-
 let msalInstance = null;
 let promesaRetorno = null;
 
@@ -427,9 +407,6 @@ async function obtenerCuenta(){
         app.getAllAccounts()[0] ||
         null;
 
-
-    /* Solo cuentas del tenant corporativo */
-
     if(
         cuenta &&
         cuenta.tenantId &&
@@ -445,9 +422,6 @@ async function obtenerCuenta(){
 
     return cuenta;
 }
-
-
-/* ================== REPORTES ================== */
 
 function obtenerReportes(){
 
@@ -480,7 +454,7 @@ function obtenerReportes(){
             n:"Alianzas y Aliados",
             i:"bi-people",
             d:"Formas de Pago Aliados",
-            u:"https://app.powerbi.com/view?r=eyJrIjoiNDg4NWZiNzQtY2M1MC00ZjJhLTg5OWItYmNhNTgyMDY5YzBhIiwidCI6IjAyMDhhY2YzLTJiYjQtNGMzYi04MGQ5LTM2YTY4M2Y3OWZkNiJ9&pageName=5ef92a0a4e9e89bd680e"
+            u:B+"eyJrIjoiNDg4NWZiNzQtY2M1MC00ZjJhLTg5OWItYmNhNTgyMDY5YzBhIiwidCI6IjAyMDhhY2YzLTJiYjQtNGMzYi04MGQ5LTM2YTY4M2Y3OWZkNiJ9&pageName=5ef92a0a4e9e89bd680e"
         },
 
         /*{
@@ -521,8 +495,6 @@ function obtenerReportes(){
 }
 
 
-/* ================== UTILIDADES ================== */
-
 const $ = (id) => document.getElementById(id);
 
 
@@ -547,8 +519,6 @@ function mostrarLogin(){
     $("vistaLogin").classList.remove("oculto");
 }
 
-
-/* ================== DASHBOARD ================== */
 
 function mostrarDashboard(){
 
@@ -695,9 +665,6 @@ function mostrarDashboard(){
 
 }
 
-
-/* ================== CERRAR SESIÓN MICROSOFT ================== */
-
 async function cerrarSesion(){
 
     try{
@@ -725,9 +692,6 @@ async function cerrarSesion(){
     }
 
 }
-
-
-/* ================== INACTIVIDAD ================== */
 
 const TIEMPO_INACTIVIDAD_MS =
     30 * 60 * 1000;
@@ -786,9 +750,6 @@ function iniciarTemporizadorInactividad(){
 
 }
 
-
-/* ================== ARRANQUE ================== */
-
 (async() => {
 
     try{
@@ -797,11 +758,6 @@ function iniciarTemporizadorInactividad(){
 
 
         if(cuenta){
-
-            /*
-             * Limpia el código de autorización
-             * de la barra de direcciones.
-             */
 
             history.replaceState(
                 null,
@@ -829,20 +785,11 @@ function iniciarTemporizadorInactividad(){
 
     }
 
-
-    /*
-     * Si no existe una sesión Microsoft,
-     * mostramos únicamente el botón Microsoft.
-     */
-
     $("loginButton").disabled = false;
 
     mostrarLogin();
 
 })();
-
-
-/* ================== LOGIN MICROSOFT ================== */
 
 $("loginButton").addEventListener(
     "click",
