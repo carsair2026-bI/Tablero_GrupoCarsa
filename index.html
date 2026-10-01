@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -10,11 +11,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
 <style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box
-}
+*{margin:0;padding:0;box-sizing:border-box}
 
 body{
     background:linear-gradient(135deg,#f5f7fa,#e4e8f0);
@@ -22,9 +19,7 @@ body{
     min-height:100vh
 }
 
-.oculto{
-    display:none !important
-}
+.oculto{display:none !important}
 
 #vistaLogin{
     min-height:100vh;
@@ -44,21 +39,9 @@ body{
     box-shadow:0 25px 70px rgba(0,0,0,.15)
 }
 
-.login-card .logo{
-    width:420px;
-    max-width:100%;
-    margin-bottom:30px
-}
-
-.login-card h1{
-    margin:0 0 15px;
-    color:#111
-}
-
-.subtitle{
-    color:#666;
-    margin-bottom:35px
-}
+.login-card .logo{width:420px;max-width:100%;margin-bottom:30px}
+.login-card h1{margin:0 0 15px;color:#111}
+.subtitle{color:#666;margin-bottom:35px}
 
 .microsoft-button{
     width:100%;
@@ -72,15 +55,8 @@ body{
     font-weight:600;
     transition:background .2s,opacity .2s
 }
-
-.microsoft-button:hover{
-    background:#1f1f1f
-}
-
-.microsoft-button:disabled{
-    opacity:.6;
-    cursor:not-allowed
-}
+.microsoft-button:hover{background:#1f1f1f}
+.microsoft-button:disabled{opacity:.6;cursor:not-allowed}
 
 #mensaje{
     display:none;
@@ -90,28 +66,12 @@ body{
     text-align:left;
     word-break:break-word
 }
+#mensaje.error{display:block;background:#fdecec;color:#b00020}
+#mensaje.success{display:block;background:#eaf7ed;color:#187333}
 
-#mensaje.error{
-    display:block;
-    background:#fdecec;
-    color:#b00020
-}
+.footer{margin-top:25px;font-size:12px;color:#999}
 
-#mensaje.success{
-    display:block;
-    background:#eaf7ed;
-    color:#187333
-}
-
-.footer{
-    margin-top:25px;
-    font-size:12px;
-    color:#999
-}
-
-#vistaDashboard{
-    padding:20px
-}
+#vistaDashboard{padding:20px}
 
 .navbar{
     background:#E51C22;
@@ -124,23 +84,9 @@ body{
     box-shadow:0 10px 30px rgba(0,0,0,.15)
 }
 
-.navbar-left{
-    display:flex;
-    align-items:center;
-    gap:20px
-}
-
-.navbar .logo{
-    height:80px;
-    width:auto;
-    object-fit:contain
-}
-
-.navbar-title{
-    color:#fff;
-    font-size:42px;
-    font-weight:800
-}
+.navbar-left{display:flex;align-items:center;gap:20px}
+.navbar .logo{height:80px;width:auto;object-fit:contain}
+.navbar-title{color:#fff;font-size:42px;font-weight:800}
 
 .logout-btn{
     display:flex;
@@ -157,12 +103,9 @@ body{
     transition:.2s;
     white-space:nowrap
 }
+.logout-btn:hover{background:#fff;color:#E51C22}
 
-.logout-btn:hover{
-    background:#fff;
-    color:#E51C22
-}
-
+/* ===== Módulos principales ===== */
 .dashboard-grid{
     display:grid;
     grid-template-columns:repeat(4,minmax(200px,280px));
@@ -185,7 +128,8 @@ body{
     box-shadow:0 5px 5px rgba(0,0,0,.06)
 }
 
-.card-btn:hover{
+.card-btn:hover,
+.card-btn.active{
     transform:translateY(-8px);
     background:#E51C22;
     color:#fff;
@@ -193,27 +137,66 @@ body{
 }
 
 .card-btn:hover p,
-.card-btn:hover i{
-    color:#fff
+.card-btn:hover i,
+.card-btn.active p,
+.card-btn.active i{color:#fff}
+
+.card-btn i{font-size:42px;min-width:40px}
+.card-btn h3{margin:0;font-size:14px;font-weight:700}
+.card-btn p{margin-top:5px;color:#6b7280;font-size:13px}
+
+/* ===== Submódulos ===== */
+.subreport-container{
+    display:none;
+    grid-template-columns:repeat(auto-fit,minmax(240px,280px));
+    gap:12px;
+    justify-content:center;
+    margin:0 auto 20px;
+    max-width:1800px
+}
+.subreport-container.visible{display:grid;animation:aparecer .3s ease}
+
+.subreport-card{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:14px 18px;
+    border:1px solid #e5e7eb;
+    border-radius:20px;
+    background:#fff;
+    color:#111;
+    text-align:left;
+    font-family:inherit;
+    cursor:pointer;
+    transition:.25s;
+    box-shadow:0 5px 12px rgba(0,0,0,.06)
+}
+.subreport-card:hover{transform:translateY(-4px);box-shadow:0 12px 25px rgba(229,28,34,.18)}
+
+.subreport-card.active{
+    background:linear-gradient(135deg,#ff4d4d,#d90429);
+    color:#fff;
+    border-color:transparent
 }
 
-.card-btn i{
-    font-size:42px;
-    min-width:40px
+.sub-icon{
+    min-width:46px;
+    height:46px;
+    border-radius:14px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:#ffe9e9;
+    color:#E51C22;
+    font-size:22px
 }
+.subreport-card.active .sub-icon{background:rgba(255,255,255,.2);color:#fff}
 
-.card-btn h3{
-    margin:0;
-    font-size:14px;
-    font-weight:700
-}
+.sub-title{display:block;font-size:15px;font-weight:700}
+.sub-desc{display:block;margin-top:2px;font-size:12px;color:#6b7280}
+.subreport-card.active .sub-desc{color:rgba(255,255,255,.9)}
 
-.card-btn p{
-    margin-top:5px;
-    color:#6b7280;
-    font-size:13px
-}
-
+/* ===== Visor ===== */
 .report-card{
     background:#fff;
     border-radius:20px;
@@ -236,73 +219,37 @@ body{
     justify-content:center;
     align-items:center;
     flex-direction:column;
+    text-align:center;
     background:linear-gradient(135deg,#f8fafc,#eef2f7)
 }
 
-.placeholder-title{
-    font-size:48px;
-    font-weight:800;
-    color:#dc3545
-}
+.placeholder-title{font-size:48px;font-weight:800;color:#dc3545}
+.placeholder-text{margin-top:15px;color:#6b7280;font-size:20px}
 
-.placeholder-text{
-    margin-top:15px;
-    color:#6b7280;
-    font-size:20px
-}
+.arrow{font-size:60px;display:inline-block;animation:bounce 1.2s infinite}
 
-.arrow{
-    font-size:60px;
-    display:inline-block;
-    animation:bounce 1.2s infinite
-}
-
-#visor{
-    width:100%;
-    height:900px;
-    border:none;
-    display:none
-}
+#visor{width:100%;height:900px;border:none;display:none}
 
 @keyframes bounce{
-    0%,100%{
-        transform:translateY(0)
-    }
-
-    50%{
-        transform:translateY(-10px)
-    }
+    0%,100%{transform:translateY(0)}
+    50%{transform:translateY(-10px)}
+}
+@keyframes aparecer{
+    from{opacity:0;transform:translateY(-6px)}
+    to{opacity:1;transform:none}
 }
 
 @media(max-width:1200px){
-    .dashboard-grid{
-        grid-template-columns:repeat(2,1fr)
-    }
-
-    .navbar{
-        flex-direction:column;
-        justify-content:center;
-        gap:15px
-    }
-
-    .navbar-left{
-        flex-direction:column;
-        text-align:center
-    }
-
-    .navbar-title{
-        font-size:32px
-    }
-
-    .navbar .logo{
-        height:70px
-    }
+    .dashboard-grid{grid-template-columns:repeat(2,1fr)}
+    .navbar{flex-direction:column;justify-content:center;gap:15px}
+    .navbar-left{flex-direction:column;text-align:center}
+    .navbar-title{font-size:32px}
+    .navbar .logo{height:70px}
 }
 
 @media(max-width:600px){
-    .dashboard-grid{
-        grid-template-columns:1fr
-    }
+    .dashboard-grid{grid-template-columns:1fr}
+    .placeholder-title{font-size:32px}
 }
 </style>
 </head>
@@ -357,7 +304,6 @@ const msalConfig = {
         postLogoutRedirectUri:BASE_URL + "index.html",
         navigateToLoginRequestUrl:false
     },
-
     cache:{
         cacheLocation:"sessionStorage",
         storeAuthStateInCookie:false
@@ -378,9 +324,7 @@ async function getMsal(){
     }
 
     if(typeof msal === "undefined"){
-        throw new Error(
-            "No se pudo cargar la librería de Microsoft (MSAL)."
-        );
+        throw new Error("No se pudo cargar la librería de Microsoft (MSAL).");
     }
 
     msalInstance = new msal.PublicClientApplication(msalConfig);
@@ -415,7 +359,6 @@ async function obtenerCuenta(){
         cuenta = null;
     }
 
-
     if(cuenta){
         app.setActiveAccount(cuenta);
     }
@@ -423,73 +366,104 @@ async function obtenerCuenta(){
     return cuenta;
 }
 
-function obtenerReportes(){
+/* =====================================================
+   MÓDULOS Y SUBMÓDULOS
+   Cada módulo (botón principal) tiene una lista "s" de
+   submódulos. Para agregar uno: copia un bloque {n,i,d,u}
+   y pega el enlace público de Power BI en "u".
+   Íconos: https://icons.getbootstrap.com/
+   ===================================================== */
+function obtenerModulos(){
 
     const B = "https://app.powerbi.com/view?r=";
 
     return [
 
         {
-            n:"Rentabilidad",
-            i:"bi-cash-coin",
-            d:"Indicadores Financieros",
-            u:B+"eyJrIjoiYzM5NWNkMjMtYmQ3MC00ZTBiLWFlMmItN2EzOTM5OWM3N2UxIiwidCI6IjAyMDhhY2YzLTJiYjQtNGMzYi04MGQ5LTM2YTY4M2Y3OWZkNiJ9&pageName=4f3ec2d505b72e41aec3"
-        },
-
-        {
-            n:"Venta QT",
-            i:"bi-graph-up-arrow",
+            n:"Ventas",
+            i:"bi-bar-chart-line",
             d:"Indicadores comerciales",
-            u:B+"eyJrIjoiZDEwZWI3NjgtMTE0Mi00NmNmLWI3NTctMmUzY2Y0NzVmZTQ4IiwidCI6IjAyMDhhY2YzLTJiYjQtNGMzYi04MGQ5LTM2YTY4M2Y3OWZkNiJ9&pageName=2b13e294406015565300"
+            s:[
+                {
+                    n:"Venta QT",
+                    i:"bi-graph-up-arrow",
+                    d:"Indicadores comerciales",
+                    u:B+"eyJrIjoiZDEwZWI3NjgtMTE0Mi00NmNmLWI3NTctMmUzY2Y0NzVmZTQ4IiwidCI6IjAyMDhhY2YzLTJiYjQtNGMzYi04MGQ5LTM2YTY4M2Y3OWZkNiJ9&pageName=2b13e294406015565300"
+                },
+                {
+                    n:"Venta CrediCash",
+                    i:"bi-cash",
+                    d:"Indicadores Desembolso Efectivo",
+                    u:B+"eyJrIjoiMjZkMmU3MjctZjk2My00ZGVlLWI1YzEtNjdmNjgwOGYzODc5IiwidCI6IjAyMDhhY2YzLTJiYjQtNGMzYi04MGQ5LTM2YTY4M2Y3OWZkNiJ9&pageName=2b13e294406015565300"
+                },
+                {
+                    n:"Alianzas y Aliados",
+                    i:"bi-people",
+                    d:"Formas de Pago Aliados",
+                    u:B+"eyJrIjoiNDg4NWZiNzQtY2M1MC00ZjJhLTg5OWItYmNhNTgyMDY5YzBhIiwidCI6IjAyMDhhY2YzLTJiYjQtNGMzYi04MGQ5LTM2YTY4M2Y3OWZkNiJ9&pageName=5ef92a0a4e9e89bd680e"
+                }
+                /*,{
+                    n:"Productividad",
+                    i:"bi-lightning-charge",
+                    d:"Seguimiento de Productividad por vendedor",
+                    u:B+"eyJrIjoiMTFkN2Q0NzQtNDQ0OS00MmRmLWI3N2YtYzYzZTA2NGQwOTdjIiwidCI6IjAyMDhhY2YzLTJiYjQtNGMzYi04MGQ5LTM2YTY4M2Y3OWZkNiJ9&pageName=75c69a2c852cdab9c419"
+                }*/
+            ]
         },
 
         {
-            n:"Venta CrediCash",
-            i:"bi-cash",
-            d:"Indicadores Desembolso Efectivo",
-            u:B+"eyJrIjoiMjZkMmU3MjctZjk2My00ZGVlLWI1YzEtNjdmNjgwOGYzODc5IiwidCI6IjAyMDhhY2YzLTJiYjQtNGMzYi04MGQ5LTM2YTY4M2Y3OWZkNiJ9&pageName=2b13e294406015565300"
+            n:"Finanzas",
+            i:"bi-cash-stack",
+            d:"Rentabilidad e indicadores",
+            s:[
+                {
+                    n:"Rentabilidad",
+                    i:"bi-cash-coin",
+                    d:"Indicadores Financieros",
+                    u:B+"eyJrIjoiYzM5NWNkMjMtYmQ3MC00ZTBiLWFlMmItN2EzOTM5OWM3N2UxIiwidCI6IjAyMDhhY2YzLTJiYjQtNGMzYi04MGQ5LTM2YTY4M2Y3OWZkNiJ9&pageName=4f3ec2d505b72e41aec3"
+                }
+            ]
         },
 
         {
-            n:"Alianzas y Aliados",
-            i:"bi-people",
-            d:"Formas de Pago Aliados",
-            u:B+"eyJrIjoiNDg4NWZiNzQtY2M1MC00ZjJhLTg5OWItYmNhNTgyMDY5YzBhIiwidCI6IjAyMDhhY2YzLTJiYjQtNGMzYi04MGQ5LTM2YTY4M2Y3OWZkNiJ9&pageName=5ef92a0a4e9e89bd680e"
-        },
-
-        /*{
-            n:"Productividad",
-            i:"bi-lightning-charge",
-            d:"Seguimiento de Productividad por vendedor",
-            u:B+"eyJrIjoiMTFkN2Q0NzQtNDQ0OS00MmRmLWI3N2YtYzYzZTA2NGQwOTdjIiwidCI6IjAyMDhhY2YzLTJiYjQtNGMzYi04MGQ5LTM2YTY4M2Y3OWZkNiJ9&pageName=75c69a2c852cdab9c419"
-        },*/
-
-        {
-            n:"Liquidación Antigüedad",
-            i:"bi-calendar-check",
-            d:"Seguimiento de antigüedad",
-            u:B+"eyJrIjoiZGU5NWZkMWItMzQyZC00MWYxLWI4MmEtY2VkODFkNTUxMzU1IiwidCI6IjAyMDhhY2YzLTJiYjQtNGMzYi04MGQ5LTM2YTY4M2Y3OWZkNiJ9&pageName=9d45593874a64936a66d"
+            n:"RRHH",
+            i:"bi-people-fill",
+            d:"Gestión humana",
+            s:[
+                {
+                    n:"Liquidación Antigüedad",
+                    i:"bi-calendar-check",
+                    d:"Seguimiento de antigüedad",
+                    u:B+"eyJrIjoiZGU5NWZkMWItMzQyZC00MWYxLWI4MmEtY2VkODFkNTUxMzU1IiwidCI6IjAyMDhhY2YzLTJiYjQtNGMzYi04MGQ5LTM2YTY4M2Y3OWZkNiJ9&pageName=9d45593874a64936a66d"
+                }
+            ]
         },
 
         {
-            n:"Bolsa Tienda",
-            i:"bi-bar-chart-fill",
-            d:"Indicadores estratégicos",
-            u:B+"eyJrIjoiNWE0OWJhMWMtNTU5Ny00YmU5LWI2N2QtOGNjYzg2YjMwZDEzIiwidCI6IjAyMDhhY2YzLTJiYjQtNGMzYi04MGQ5LTM2YTY4M2Y3OWZkNiJ9&pageName=eccb299d317937f2f476"
-        },
-
-        /*{n:"Integrados",
-            i:"bi-bar-chart-fill",
-            d:"Indicadores estratégicos",
-            u:B+"eyJrIjoiNjNiMTU2MzQtYWI2Ni00NWI5LTg4OWEtYzAwZjViMjg4NGFlIiwidCI6IjAyMDhhY2YzLTJiYjQtNGMzYi04MGQ5LTM2YTY4M2Y3OWZkNiJ9&pageName=4f3ec2d505b72e41aec3"
-        },
-
-        {
-            n:"OIC",
-            i:"bi-eye",
-            d:"Indicadores OIC",
-            u:B+"eyJrIjoiZTZiNjBkNGYtMTBmOS00YWU5LWEyMmEtMzI0MDIyZjdkMzhhIiwidCI6IjAyMDhhY2YzLTJiYjQtNGMzYi04MGQ5LTM2YTY4M2Y3OWZkNiJ9&pageName=2b13e294406015565300"
-        }*/
+            n:"Estratégicos",
+            i:"bi-speedometer2",
+            d:"Indicadores clave",
+            s:[
+                {
+                    n:"Bolsa Tienda",
+                    i:"bi-bar-chart-fill",
+                    d:"Indicadores estratégicos",
+                    u:B+"eyJrIjoiNWE0OWJhMWMtNTU5Ny00YmU5LWI2N2QtOGNjYzg2YjMwZDEzIiwidCI6IjAyMDhhY2YzLTJiYjQtNGMzYi04MGQ5LTM2YTY4M2Y3OWZkNiJ9&pageName=eccb299d317937f2f476"
+                }
+                /*,{
+                    n:"Integrados",
+                    i:"bi-bar-chart-fill",
+                    d:"Indicadores estratégicos",
+                    u:B+"eyJrIjoiNjNiMTU2MzQtYWI2Ni00NWI5LTg4OWEtYzAwZjViMjg4NGFlIiwidCI6IjAyMDhhY2YzLTJiYjQtNGMzYi04MGQ5LTM2YTY4M2Y3OWZkNiJ9&pageName=4f3ec2d505b72e41aec3"
+                },
+                {
+                    n:"OIC",
+                    i:"bi-eye",
+                    d:"Indicadores OIC",
+                    u:B+"eyJrIjoiZTZiNjBkNGYtMTBmOS00YWU5LWEyMmEtMzI0MDIyZjdkMzhhIiwidCI6IjAyMDhhY2YzLTJiYjQtNGMzYi04MGQ5LTM2YTY4M2Y3OWZkNiJ9&pageName=2b13e294406015565300"
+                }*/
+            ]
+        }
 
     ];
 }
@@ -499,23 +473,16 @@ const $ = (id) => document.getElementById(id);
 
 
 function mostrarMensaje(texto,tipo){
-
     const el = $("mensaje");
-
     el.className = tipo;
-
     el.innerText = texto;
 }
 
 
 function mostrarLogin(){
-
     $("vistaCarga").classList.add("oculto");
-
     $("vistaDashboard").classList.add("oculto");
-
     $("vistaDashboard").innerHTML = "";
-
     $("vistaLogin").classList.remove("oculto");
 }
 
@@ -523,146 +490,129 @@ function mostrarLogin(){
 function mostrarDashboard(){
 
     const cont = $("vistaDashboard");
+    const modulos = obtenerModulos();
 
-    const reportes = obtenerReportes();
-
-
-    const tarjetas = reportes.map((r,idx) => `
-
-        <div class="card-btn" data-idx="${idx}">
-
-            <i class="bi ${r.i}"></i>
-
+    const tarjetas = modulos.map((m,idx) => `
+        <div class="card-btn" data-mod="${idx}">
+            <i class="bi ${m.i}"></i>
             <div>
-                <h3>${r.n}</h3>
-                <p>${r.d}</p>
+                <h3>${m.n}</h3>
+                <p>${m.d}</p>
             </div>
-
         </div>
-
     `).join("");
-
 
     cont.innerHTML = `
 
         <div class="navbar">
-
             <div class="navbar-left">
-
-                <img
-                    src="logo.png"
-                    class="logo"
-                    alt="Logo Grupo Carsa"
-                >
-
-                <div class="navbar-title">
-                    Reportes Grupo Carsa
-                </div>
-
+                <img src="logo.png" class="logo" alt="Logo Grupo Carsa">
+                <div class="navbar-title">Reportes Grupo Carsa</div>
             </div>
-
-
             <button id="btnCerrarSesion" class="logout-btn">
-
                 <i class="bi bi-box-arrow-right"></i>
-
                 Cerrar sesión
-
             </button>
-
         </div>
 
+        <div class="dashboard-grid">${tarjetas}</div>
 
-        <div class="dashboard-grid">
-            ${tarjetas}
-        </div>
-
+        <div class="subreport-container" id="submodulos"></div>
 
         <div class="report-card">
 
-            <div
-                class="report-header"
-                id="titulo"
-            >
-                Selecciona un reporte
-            </div>
-
+            <div class="report-header" id="titulo">Selecciona un reporte</div>
 
             <div id="placeholder">
-
                 <div class="placeholder-title">
-
-                    <span class="arrow">
-                        ⬆️
-                    </span>
-
+                    <span class="arrow">⬆️</span>
                     Selecciona Tu Reporte
-
                 </div>
-
-
                 <div class="placeholder-text">
-
-                    Selecciona uno de los reportes para visualizar la información
-
+                    Selecciona un módulo y luego un reporte para visualizar la información
                 </div>
-
             </div>
 
-
-            <iframe
-                id="visor"
-                allowfullscreen
-            ></iframe>
+            <iframe id="visor" allowfullscreen></iframe>
 
         </div>
-
     `;
 
+    const contSubs = $("submodulos");
 
-    cont.querySelectorAll(".card-btn").forEach((el) => {
+    function cargarReporte(modulo,sub,btn){
 
-        el.addEventListener("click",() => {
+        if(!sub.u){
+            alert("Este reporte aún no tiene enlace de Power BI.");
+            return;
+        }
 
-            const r = reportes[el.dataset.idx];
+        contSubs.querySelectorAll(".subreport-card")
+            .forEach((b) => b.classList.remove("active"));
 
-            $("titulo").innerText = r.n;
+        if(btn){
+            btn.classList.add("active");
+        }
 
-            $("placeholder").style.display = "none";
+        $("titulo").innerText = modulo.n + " · " + sub.n;
+        $("placeholder").style.display = "none";
 
-            const visor = $("visor");
+        const visor = $("visor");
+        visor.style.display = "block";
+        visor.src = sub.u;
 
-            visor.style.display = "block";
+        document
+            .querySelector(".report-card")
+            .scrollIntoView({behavior:"smooth",block:"start"});
+    }
 
-            visor.src = r.u;
+    function abrirModulo(idx){
 
-            document
-                .querySelector(".report-card")
-                .scrollIntoView({
-                    behavior:"smooth",
-                    block:"start"
-                });
+        const modulo = modulos[idx];
 
+        cont.querySelectorAll(".card-btn").forEach((c) => {
+            c.classList.toggle("active", c.dataset.mod === String(idx));
         });
 
+        contSubs.innerHTML = modulo.s.map((s,j) => `
+            <button type="button" class="subreport-card" data-sub="${j}">
+                <div class="sub-icon"><i class="bi ${s.i}"></i></div>
+                <div>
+                    <span class="sub-title">${s.n}</span>
+                    <small class="sub-desc">${s.d}</small>
+                </div>
+            </button>
+        `).join("");
+
+        contSubs.classList.add("visible");
+
+        contSubs.querySelectorAll(".subreport-card").forEach((b) => {
+            b.addEventListener("click",() => {
+                cargarReporte(modulo, modulo.s[b.dataset.sub], b);
+            });
+        });
+
+        // Si el módulo tiene un solo reporte, se abre directamente
+        if(modulo.s.length === 1){
+            cargarReporte(
+                modulo,
+                modulo.s[0],
+                contSubs.querySelector(".subreport-card")
+            );
+        }
+    }
+
+    cont.querySelectorAll(".card-btn").forEach((el) => {
+        el.addEventListener("click",() => abrirModulo(Number(el.dataset.mod)));
     });
 
-
-    $("btnCerrarSesion").addEventListener(
-        "click",
-        cerrarSesion
-    );
-
+    $("btnCerrarSesion").addEventListener("click",cerrarSesion);
 
     $("vistaCarga").classList.add("oculto");
-
     $("vistaLogin").classList.add("oculto");
-
     cont.classList.remove("oculto");
 
-
     iniciarTemporizadorInactividad();
-
 }
 
 async function cerrarSesion(){
@@ -675,9 +625,7 @@ async function cerrarSesion(){
             app.getActiveAccount() ||
             app.getAllAccounts()[0];
 
-        await app.logoutRedirect({
-            account:cuenta
-        });
+        await app.logoutRedirect({account:cuenta});
 
     }catch(e){
 
@@ -685,39 +633,27 @@ async function cerrarSesion(){
 
         sessionStorage.clear();
 
-        window.location.replace(
-            BASE_URL + "index.html"
-        );
-
+        window.location.replace(BASE_URL + "index.html");
     }
-
 }
 
-const TIEMPO_INACTIVIDAD_MS =
-    30 * 60 * 1000;
+const TIEMPO_INACTIVIDAD_MS = 30 * 60 * 1000;
 
 let temporizadorInactividad = null;
-
 let escuchandoActividad = false;
 
 
 function reiniciarTemporizadorInactividad(){
 
-    clearTimeout(
-        temporizadorInactividad
-    );
+    clearTimeout(temporizadorInactividad);
 
-    temporizadorInactividad =
-        setTimeout(() => {
+    temporizadorInactividad = setTimeout(() => {
 
-            alert(
-                "Tu sesión se cerró por inactividad."
-            );
+        alert("Tu sesión se cerró por inactividad.");
 
-            cerrarSesion();
+        cerrarSesion();
 
-        },TIEMPO_INACTIVIDAD_MS);
-
+    },TIEMPO_INACTIVIDAD_MS);
 }
 
 
@@ -725,29 +661,19 @@ function iniciarTemporizadorInactividad(){
 
     if(!escuchandoActividad){
 
-        [
-            "mousemove",
-            "mousedown",
-            "keydown",
-            "scroll",
-            "touchstart",
-            "click"
-        ].forEach((ev) => {
-
+        ["mousemove","mousedown","keydown","scroll","touchstart","click"]
+        .forEach((ev) => {
             document.addEventListener(
                 ev,
                 reiniciarTemporizadorInactividad,
                 {passive:true}
             );
-
         });
 
         escuchandoActividad = true;
-
     }
 
     reiniciarTemporizadorInactividad();
-
 }
 
 (async() => {
@@ -756,33 +682,23 @@ function iniciarTemporizadorInactividad(){
 
         const cuenta = await obtenerCuenta();
 
-
         if(cuenta){
 
-            history.replaceState(
-                null,
-                "",
-                window.location.pathname
-            );
-
+            history.replaceState(null,"",window.location.pathname);
 
             mostrarDashboard();
 
             return;
-
         }
-
 
     }catch(e){
 
         console.error(e);
 
         mostrarMensaje(
-            "Error de Microsoft: " +
-            (e.errorMessage || e.message || e),
+            "Error de Microsoft: " + (e.errorMessage || e.message || e),
             "error"
         );
-
     }
 
     $("loginButton").disabled = false;
@@ -791,46 +707,32 @@ function iniciarTemporizadorInactividad(){
 
 })();
 
-$("loginButton").addEventListener(
-    "click",
-    async() => {
+$("loginButton").addEventListener("click",async() => {
 
-        const btn = $("loginButton");
+    const btn = $("loginButton");
 
-        btn.disabled = true;
+    btn.disabled = true;
+    btn.innerText = "Redirigiendo...";
 
-        btn.innerText = "Redirigiendo...";
+    try{
 
+        const app = await getMsal();
 
-        try{
+        await app.loginRedirect(LOGIN_REQUEST);
 
-            const app = await getMsal();
+    }catch(error){
 
-            await app.loginRedirect(
-                LOGIN_REQUEST
-            );
+        console.error(error);
 
-        }catch(error){
+        mostrarMensaje(
+            "No se pudo iniciar sesión: " + (error.errorMessage || error.message),
+            "error"
+        );
 
-            console.error(error);
-
-            mostrarMensaje(
-                "No se pudo iniciar sesión: " +
-                (error.errorMessage || error.message),
-                "error"
-            );
-
-
-            btn.disabled = false;
-
-            btn.innerText =
-                "Iniciar sesión con Microsoft";
-
-        }
-
+        btn.disabled = false;
+        btn.innerText = "Iniciar sesión con Microsoft";
     }
-);
-
+});
 </script>
 
 </body>
