@@ -195,8 +195,6 @@ body{
 .sub-title{display:block;font-size:15px;font-weight:700}
 .sub-desc{display:block;margin-top:2px;font-size:12px;color:#6b7280}
 .subreport-card.active .sub-desc{color:rgba(255,255,255,.9)}
-
-/* ===== Visor ===== */
 .report-card{
     background:#fff;
     border-radius:20px;
@@ -366,13 +364,6 @@ async function obtenerCuenta(){
     return cuenta;
 }
 
-/* =====================================================
-   MÓDULOS Y SUBMÓDULOS
-   Cada módulo (botón principal) tiene una lista "s" de
-   submódulos. Para agregar uno: copia un bloque {n,i,d,u}
-   y pega el enlace público de Power BI en "u".
-   Íconos: https://icons.getbootstrap.com/
-   ===================================================== */
 function obtenerModulos(){
 
     const B = "https://app.powerbi.com/view?r=";
@@ -420,11 +411,23 @@ function obtenerModulos(){
                     d:"Cobranza y recuperación",
                     u:B+"eyJrIjoiMzkwZTY2NTQtMWJmNy00MzA5LTk2OWMtNWM2Mjg2MWY4MTJjIiwidCI6IjAyMDhhY2YzLTJiYjQtNGMzYi04MGQ5LTM2YTY4M2Y3OWZkNiJ9"
                 }
-                /*,{
+                ,{
                     n:"Productividad",
                     i:"bi-lightning-charge",
                     d:"Seguimiento de Productividad por vendedor",
                     u:B+"eyJrIjoiMTFkN2Q0NzQtNDQ0OS00MmRmLWI3N2YtYzYzZTA2NGQwOTdjIiwidCI6IjAyMDhhY2YzLTJiYjQtNGMzYi04MGQ5LTM2YTY4M2Y3OWZkNiJ9&pageName=75c69a2c852cdab9c419"
+                }
+                ,{
+                    n:"OIC",
+                    i:"bi-eye",
+                    d:"Indicadores OIC",
+                    u:B+"eyJrIjoiZTZiNjBkNGYtMTBmOS00YWU5LWEyMmEtMzI0MDIyZjdkMzhhIiwidCI6IjAyMDhhY2YzLTJiYjQtNGMzYi04MGQ5LTM2YTY4M2Y3OWZkNiJ9&pageName=2b13e294406015565300"
+                }
+                /*,{
+                    n:"Integrados",
+                    i:"bi-bar-chart-fill",
+                    d:"Indicadores estratégicos",
+                    u:B+"eyJrIjoiNjNiMTU2MzQtYWI2Ni00NWI5LTg4OWEtYzAwZjViMjg4NGFlIiwidCI6IjAyMDhhY2YzLTJiYjQtNGMzYi04MGQ5LTM2YTY4M2Y3OWZkNiJ9&pageName=4f3ec2d505b72e41aec3"
                 }*/
             ]
         },
@@ -486,18 +489,7 @@ function obtenerModulos(){
                     d:"Indicadores estratégicos",
                     u:B+"eyJrIjoiNWE0OWJhMWMtNTU5Ny00YmU5LWI2N2QtOGNjYzg2YjMwZDEzIiwidCI6IjAyMDhhY2YzLTJiYjQtNGMzYi04MGQ5LTM2YTY4M2Y3OWZkNiJ9&pageName=eccb299d317937f2f476"
                 }
-                /*,{
-                    n:"Integrados",
-                    i:"bi-bar-chart-fill",
-                    d:"Indicadores estratégicos",
-                    u:B+"eyJrIjoiNjNiMTU2MzQtYWI2Ni00NWI5LTg4OWEtYzAwZjViMjg4NGFlIiwidCI6IjAyMDhhY2YzLTJiYjQtNGMzYi04MGQ5LTM2YTY4M2Y3OWZkNiJ9&pageName=4f3ec2d505b72e41aec3"
-                },
-                {
-                    n:"OIC",
-                    i:"bi-eye",
-                    d:"Indicadores OIC",
-                    u:B+"eyJrIjoiZTZiNjBkNGYtMTBmOS00YWU5LWEyMmEtMzI0MDIyZjdkMzhhIiwidCI6IjAyMDhhY2YzLTJiYjQtNGMzYi04MGQ5LTM2YTY4M2Y3OWZkNiJ9&pageName=2b13e294406015565300"
-                }*/
+                
             ]
         }
 
