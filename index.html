@@ -104,6 +104,46 @@ body{
 }
 .logout-btn:hover{background:#fff;color:#E51C22}
 
+.navbar-right{
+    display:flex;
+    align-items:center;
+    gap:15px
+}
+
+.user-info{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    color:#fff;
+    text-align:right
+}
+
+.user-avatar{
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:rgba(255,255,255,.2);
+    border:1px solid rgba(255,255,255,.5);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-weight:700;
+    font-size:16px;
+    flex-shrink:0
+}
+
+.user-name{
+    font-size:14px;
+    font-weight:700;
+    line-height:1.2
+}
+
+.user-email{
+    font-size:12px;
+    opacity:.85;
+    line-height:1.2
+}
+
 .dashboard-grid{
     display:grid;
     grid-template-columns:repeat(4,minmax(200px,280px));
@@ -192,6 +232,7 @@ body{
 .sub-title{display:block;font-size:15px;font-weight:700}
 .sub-desc{display:block;margin-top:2px;font-size:12px;color:#6b7280}
 .subreport-card.active .sub-desc{color:rgba(255,255,255,.9)}
+
 .report-card{
     background:#fff;
     border-radius:20px;
@@ -240,6 +281,8 @@ body{
     .navbar-left{flex-direction:column;text-align:center}
     .navbar-title{font-size:32px}
     .navbar .logo{height:70px}
+    .navbar-right{flex-direction:column;gap:10px}
+    .user-info{text-align:center;flex-direction:column;gap:4px}
 }
 
 @media(max-width:600px){
@@ -486,7 +529,7 @@ function obtenerModulos(){
                     d:"Indicadores estratégicos",
                     u:B+"eyJrIjoiNWE0OWJhMWMtNTU5Ny00YmU5LWI2N2QtOGNjYzg2YjMwZDEzIiwidCI6IjAyMDhhY2YzLTJiYjQtNGMzYi04MGQ5LTM2YTY4M2Y3OWZkNiJ9&pageName=eccb299d317937f2f476"
                 }
-                
+
             ]
         }
 
@@ -511,11 +554,29 @@ function mostrarLogin(){
     $("vistaLogin").classList.remove("oculto");
 }
 
+function escaparHtml(t){
+    return String(t || "").replace(/[&<>"']/g, c => ({
+        "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+    }[c]));
+}
 
-function mostrarDashboard(){
+function iniciales(nombre){
+    return (nombre || "?")
+        .trim()
+        .split(/\s+/)
+        .slice(0,2)
+        .map(p => p[0])
+        .join("")
+        .toUpperCase();
+}
+
+function mostrarDashboard(cuenta){
 
     const cont = $("vistaDashboard");
     const modulos = obtenerModulos();
+
+    const nombre = (cuenta && (cuenta.name || cuenta.username)) || "Usuario";
+    const correo = (cuenta && cuenta.username) || "";
 
     const tarjetas = modulos.map((m,idx) => `
         <div class="card-btn" data-mod="${idx}">
@@ -534,10 +595,20 @@ function mostrarDashboard(){
                 <img src="logo.png" class="logo" alt="Logo Grupo Carsa">
                 <div class="navbar-title">Reportes Grupo Carsa</div>
             </div>
-            <button id="btnCerrarSesion" class="logout-btn">
-                <i class="bi bi-box-arrow-right"></i>
-                Cerrar sesión
-            </button>
+
+            <div class="navbar-right">
+                <div class="user-info">
+                    <div class="user-avatar">${escaparHtml(iniciales(nombre))}</div>
+                    <div>
+                        <div class="user-name">${escaparHtml(nombre)}</div>
+                        <div class="user-email">${escaparHtml(correo)}</div>
+                    </div>
+                </div>
+                <button id="btnCerrarSesion" class="logout-btn">
+                    <i class="bi bi-box-arrow-right"></i>
+                    Cerrar sesión
+                </button>
+            </div>
         </div>
 
         <div class="dashboard-grid">${tarjetas}</div>
@@ -711,7 +782,7 @@ function iniciarTemporizadorInactividad(){
 
             history.replaceState(null,"",window.location.pathname);
 
-            mostrarDashboard();
+            mostrarDashboard(cuenta);
 
             return;
         }
